@@ -1523,11 +1523,11 @@ window.__sfxctx=function(){try{if(!ctx&&AC)ctx=new AC();if(ctx&&ctx.state==='sus
 function unl(){window.__sfxctx()}
 ['pointerdown','touchstart','click','keydown'].forEach(function(ev){document.addEventListener(ev,unl,{capture:true,passive:true})});
 function mk(src,v){var a=null;try{a=new Audio(src);a.preload='auto';a.volume=v}catch(e){}return a}
-var B=mk('btn.mp3',.7),C=mk('cheer.mp3',.9),D=mk('open-echo.mp3',1);
+var B=mk('btn.mp3',.7),C=mk('cheer.mp3',.9),D=mk('open-echo.mp3',1),M=mk('door.mp3',1);
 function want(){return !window.__libWant||window.__libWant()}
 function pl(a,v){if(!a||!want())return;try{var x=a.cloneNode();x.volume=v;x.play().catch(function(){})}catch(e){}}
 window.__cheer=function(){pl(C,.9)};
-document.addEventListener('click',function(e){var t=e.target&&e.target.closest&&e.target.closest('button,.btn,[role=button]');if(!t||t.id==='snd'||t.classList.contains('hv')||t.closest('#start')||t.getAttribute('role')==='button')return;var op=t.classList.contains('open');setTimeout(function(){op?pl(D,1):pl(B,.7)},0)},true);
+document.addEventListener('click',function(e){var t=e.target&&e.target.closest&&e.target.closest('button,.btn,[role=button]');if(!t||t.id==='snd'||t.classList.contains('hv')||t.closest('#start')||t.getAttribute('role')==='button')return;var op=t.classList.contains('open');setTimeout(function(){op?(pl(M,1),pl(D,1)):pl(B,.7)},0)},true);
 })();
 </script>
 <script>

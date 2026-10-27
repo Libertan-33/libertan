@@ -1157,7 +1157,7 @@ function peakOf(buf){var d=buf.getChannelData(0),m=0;for(var i=0;i<d.length;i++)
 function viaCtx(k,v){try{if(!actx||!BUF[k])return;if(actx.state==="suspended")actx.resume();var s=actx.createBufferSource(),g=actx.createGain();s.buffer=BUF[k];g.gain.value=v*.85/peakOf(BUF[k]);s.connect(g);g.connect(actx.destination);s.start()}catch(e){}}
 function duck(){if(!bgmEl||!on)return;bgmEl.volume=.28;clearTimeout(duckT);duckT=setTimeout(function(){if(on&&bgmEl)bgmEl.volume=.55},500)}
 var VO0=null;function voDoor(){try{if(!VO0)VO0=new Audio("v0.mp3");VO0.currentTime=0;VO0.volume=1;var p=VO0.play();if(p&&p.catch)p.catch(function(){})}catch(e){}}
-function sfx(k,v){if(!on||!ready||!S[k])return;duck();if(k==="swell"){voDoor();return}var a=pool[pi++%pool.length];try{a.src=S[k];a.volume=v;a.currentTime=0;var p=a.play();if(p&&p.catch)p.catch(function(){viaCtx(k,v)})}catch(e){viaCtx(k,v)}}
+function sfx(k,v){if(!on||!ready||!S[k])return;duck();if(k==="swell")returnvar a=pool[pi++%pool.length];try{a.src=S[k];a.volume=v;a.currentTime=0;var p=a.play();if(p&&p.catch)p.catch(function(){viaCtx(k,v)})}catch(e){viaCtx(k,v)}}
 function start(){if(on)return;on=true;wantOn=true;tap0=Date.now();label();boot();loadNat();if(ready){playBGM()}}
 function stop(){on=false;wantOn=false;label();stopBGM()}
 btn.addEventListener("click",function(e){e.stopPropagation();unlock();if(on){stop();muted=true;try{localStorage.setItem("libsnd2","off")}catch(x){}}else{muted=false;try{localStorage.removeItem("libsnd2")}catch(x){}start()}});

@@ -1,0 +1,14 @@
+{
+  "name": "レンタルりばたん",
+  "short_name": "レンタルりばたん",
+  "description": "あなたが価値を決める、お気持ち制レンタル",
+  "start_url": "./",
+  "scope": "./",
+  "display": "browser",
+  "background_color": "#D9D1C5",
+  "theme_color": "#4A4540",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

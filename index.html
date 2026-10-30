@@ -764,7 +764,7 @@ html.scr .iz,html.scr .iz::before,html.scr .iz::after{animation-play-state:pause
 <style>
 /* ===== v3.1: 巻物 / ノート(紙) / 気分の答え / 灯籠流し ===== */
 /* --- 巻物(折りたたみ): 上下の軸の間に紙が広がる --- */
-.fold{display:grid;grid-template-rows:0fr;margin-top:12px;transition:grid-template-rows 1.15s cubic-bezier(.32,.64,.2,1)}
+.fold{display:grid;grid-template-rows:0fr;margin-top:12px;transition:grid-template-rows 2.8s cubic-bezier(.45,.05,.35,1)}
 .fold.open{grid-template-rows:1fr}
 .fold-in{position:relative;min-height:0;overflow:hidden;margin:0;padding:0 14px;opacity:1;transition:none;border-radius:3px;
 background:
@@ -808,33 +808,6 @@ background:repeating-linear-gradient(180deg,transparent 0 31px,rgba(80,100,120,.
 .a2-s{margin:14px 0 0;font-size:12.5px;line-height:1.7;color:var(--sub)}
 @media (prefers-reduced-motion:reduce){#mood .ans2{animation:none}}
 
-/* --- 水に流す: 灯籠流し(transform / opacity だけで動かす) --- */
-.lt{position:fixed;inset:0;z-index:450;pointer-events:none;overflow:hidden;contain:strict;opacity:0}
-.lt-bg{position:absolute;inset:0;background:
-radial-gradient(1.6px 1.6px at 14% 8%,#fff 50%,transparent),
-radial-gradient(1.2px 1.2px at 31% 17%,#fff 50%,transparent),
-radial-gradient(1.8px 1.8px at 52% 6%,#fff 50%,transparent),
-radial-gradient(1.2px 1.2px at 71% 14%,#fff 50%,transparent),
-radial-gradient(1.6px 1.6px at 88% 9%,#fff 50%,transparent),
-radial-gradient(1.2px 1.2px at 22% 29%,#fff 50%,transparent),
-radial-gradient(1.4px 1.4px at 63% 27%,#fff 50%,transparent),
-radial-gradient(1.2px 1.2px at 93% 31%,#fff 50%,transparent),
-radial-gradient(120% 22% at 50% 57%,rgba(255,176,110,.5),transparent 70%),
-linear-gradient(180deg,#10162e 0,#212a52 32%,#46507c 50%,#d9976a 56.5%,#27475a 57.6%,#173443 76%,#0e2230 100%)}
-.lt-w{position:absolute;left:0;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,rgba(255,226,180,.6),transparent);will-change:transform,opacity;opacity:0}
-.lt-l{position:absolute;left:0;top:0;will-change:transform,opacity;opacity:0;transform-origin:50% 100%}
-.lt-b{transform-origin:50% 100%}
-.lt-body{position:relative;border-radius:7px;background:repeating-linear-gradient(90deg,rgba(150,70,10,0) 0 17px,rgba(150,70,10,.22) 17px 18px),linear-gradient(180deg,#ffeabd,#ffd48c 55%,#f7b665);box-shadow:0 0 26px 7px rgba(255,170,70,.5),inset 0 0 20px rgba(255,120,30,.3);padding:18px 13px}
-.lt-cap{height:8px;margin:0 -4px;border-radius:3px;background:linear-gradient(180deg,#5a3d22,#2e1d0e)}
-.lt-cap.t{margin-bottom:-1px}
-.lt-cap.d{margin-top:-1px}
-.lt-tx{writing-mode:vertical-rl;font-family:"Zen Kurenaido","Yomogi","Hiragino Maru Gothic ProN",cursive;font-size:18px;line-height:1.6;letter-spacing:.08em;color:#3a2108;max-height:196px;text-shadow:0 0 .6px rgba(58,33,8,.6)}
-.lt-tx span{opacity:0}
-.lt-r{position:absolute;left:50%;bottom:-18px;width:130%;height:26px;margin-left:-65%;border-radius:50%;background:radial-gradient(closest-side,rgba(255,190,110,.55),rgba(255,190,110,0));opacity:0}
-.lt-sm .lt-body{padding:0;width:20px;height:24px;border-radius:5px;box-shadow:0 0 14px 4px rgba(255,170,70,.55),inset 0 0 8px rgba(255,120,30,.3)}
-.lt-sm .lt-cap{height:4px;margin:0 -2px}
-.lt-rp{position:absolute;width:70px;height:70px;margin:-35px 0 0 -35px;border-radius:50%;border:2px solid rgba(255,232,190,.75);opacity:0;will-change:transform,opacity}
-.lt-m{position:absolute;left:8%;right:8%;top:13%;text-align:center;font-family:"Zen Kurenaido","Yomogi","Zen Antique",serif;font-size:clamp(20px,6vw,28px);line-height:1.6;letter-spacing:.1em;color:#fff1d6;text-shadow:0 0 14px rgba(255,190,110,.75);opacity:0}
 </style>
 </head>
 <body>
@@ -999,15 +972,6 @@ linear-gradient(180deg,#10162e 0,#212a52 32%,#46507c 50%,#d9976a 56.5%,#27475a 5
 </div>
 </section>
 
-<section id="gf">
-<div class="wrap">
-<p class="eyebrow">GIVE &amp; FORGET</p>
-<h2>してあげたことは、<br>水に流そう</h2>
-<p class="lead">「よきことは 人にゆずりて」<br>誰かのためにしたことを<br>ここに置いていってください<br>書いたら、水に流れて消えていきます</p>
-<form class="gfform" id="gff" autocomplete="off"><div class="gfarea" id="gfa"><textarea id="gft" maxlength="60" rows="2" placeholder="例）道に迷っていた人を案内した" aria-label="誰かにしてあげたこと"></textarea></div><button class="btn" type="submit">水に流す</button><p class="gfn">※入力した内容は、保存も送信もされません</p><p class="gfm" id="gfm" role="status"></p></form>
-</div>
-</section>
-
 <section class="alt" id="flow">
 <div class="wrap">
 <p class="eyebrow">HOW TO BOOK</p>
@@ -1035,9 +999,12 @@ linear-gradient(180deg,#10162e 0,#212a52 32%,#46507c 50%,#d9976a 56.5%,#27475a 5
 <p class="eyebrow">THANKS</p>
 <h2>利用者の声</h2>
 <p class="lead">サービスのあとに届いた<br>「ありがとう」を綴ったノートです</p>
+<button class="fold-btn" type="button" aria-expanded="false" aria-controls="f-thanks" data-l="利用者の声を読む"><span class="fl-t">利用者の声を読む</span></button>
+<div class="fold" id="f-thanks" inert><div class="fold-in">
 <div class="nbw"><div class="nb" id="nb"><div class="nb-pages" id="nbp" tabindex="0" role="group" aria-roledescription="ノート" aria-label="利用者の声のノート。左右の矢印キーでめくれます"></div></div>
 <div class="nb-ctl"><button class="nb-b" type="button" id="nbprev" aria-label="前のページ">‹</button><button class="nb-b" type="button" id="nbnext" aria-label="次のページ">›</button></div>
 <p class="nb-h">← 左にスワイプして めくれます</p></div>
+<button class="fold-x" type="button" data-for="f-thanks">とじる</button></div></div>
 </div>
 </section>
 
@@ -1751,11 +1718,11 @@ window.__sfxctx=function(){try{if(!ctx&&AC)ctx=new AC();if(ctx&&ctx.state==='sus
 function unl(){window.__sfxctx()}
 ['pointerdown','touchstart','click','keydown'].forEach(function(ev){document.addEventListener(ev,unl,{capture:true,passive:true})});
 function mk(src,v){var a=null;try{a=new Audio(src);a.preload='auto';a.volume=v}catch(e){}return a}
-var B=mk('btn.mp3',.7),C=mk('cheer.mp3',.9),D=mk('open-echo.mp3',1),M=mk('door.mp3',1);
+var B=mk('btn.mp3',.7),C=mk('cheer.mp3',.9),D=mk('door-open.mp3',1);
 function want(){return !window.__libWant||window.__libWant()}
 function pl(a,v){if(!a||!want())return;try{var x=a.cloneNode();x.volume=v;x.play().catch(function(){})}catch(e){}}
 window.__cheer=function(){pl(C,.9)};
-document.addEventListener('click',function(e){var t=e.target&&e.target.closest&&e.target.closest('button,.btn,[role=button]');if(!t||t.id==='snd'||t.classList.contains('hv')||t.closest('#start')||t.getAttribute('role')==='button')return;var op=t.classList.contains('open');if(op){var dr=document.getElementById('door');if(dr&&!matchMedia('(prefers-reduced-motion: reduce)').matches){[.28,.56].forEach(function(dl,k){setTimeout(function(){var rg=dr.querySelector('.ring');if(!rg)return;var c=rg.cloneNode();c.style.animationDelay='0s';c.style.opacity='';c.style.animation='ringout '+(1.2+k*.2)+'s ease-out forwards';c.style.filter='opacity('+(.55-k*.2)+')';dr.appendChild(c);setTimeout(function(){c.remove()},1800)},dl*1000)})}}setTimeout(function(){op?(pl(M,1),pl(D,1)):pl(B,.7)},0)},true);
+document.addEventListener('click',function(e){var t=e.target&&e.target.closest&&e.target.closest('button,.btn,[role=button]');if(!t||t.id==='snd'||t.classList.contains('hv')||t.closest('#start')||t.getAttribute('role')==='button')return;var op=t.classList.contains('open');if(op){var dr=document.getElementById('door');if(dr&&!matchMedia('(prefers-reduced-motion: reduce)').matches){[.28,.56].forEach(function(dl,k){setTimeout(function(){var rg=dr.querySelector('.ring');if(!rg)return;var c=rg.cloneNode();c.style.animationDelay='0s';c.style.opacity='';c.style.animation='ringout '+(1.2+k*.2)+'s ease-out forwards';c.style.filter='opacity('+(.55-k*.2)+')';dr.appendChild(c);setTimeout(function(){c.remove()},1800)},dl*1000)})}}setTimeout(function(){op?pl(D,1):pl(B,.7)},0)},true);
 })();
 </script>
 <script>
@@ -1914,10 +1881,10 @@ function snd(n,v){if(!wantSnd())return;try{var a=pool[n];if(!a){a=pool[n]=[new A
 /* ---- 巻物(折りたたみ) ---- */
 try{(function(){
 var fxT=0;
-function fx(){document.documentElement.classList.add("fx");clearTimeout(fxT);fxT=setTimeout(function(){document.documentElement.classList.remove("fx")},1300);if(window.__scan)setTimeout(window.__scan,1400)}
+function fx(){document.documentElement.classList.add("fx");clearTimeout(fxT);fxT=setTimeout(function(){document.documentElement.classList.remove("fx")},2900);if(window.__scan)setTimeout(window.__scan,3000)}
 function setF(f,open){var b=f._b;clearTimeout(f._t);fx();snd("page",.5);
 if(open){f.classList.remove("closing");f.classList.add("open");f.removeAttribute("inert");var r=f.querySelectorAll(".rv");for(var i=0;i<r.length;i++)r[i].classList.add("in")}
-else{f.classList.add("closing");f.classList.remove("open");f._t=setTimeout(function(){f.classList.remove("closing");f.setAttribute("inert","")},1200)}
+else{f.classList.add("closing");f.classList.remove("open");f._t=setTimeout(function(){f.classList.remove("closing");f.setAttribute("inert","")},2900)}
 b.setAttribute("aria-expanded",open?"true":"false");b.firstChild.textContent=open?"とじる":b.getAttribute("data-l")}
 var fs=document.querySelectorAll(".fold");
 (function(){var w=document.getElementById("site");function warm(){var im=document.querySelectorAll(".fold img");var k=0;(function nx(){if(k>=im.length)return;var e=im[k++];try{if(e.decode)e.decode().then(nx,nx);else nx()}catch(x){nx()}})()}
@@ -1954,59 +1921,6 @@ ans.appendChild(w)}
 M.forEach(function(m){var b=el("button",null,m[0]);b.type="button";b.setAttribute("aria-pressed","false");
 b.addEventListener("click",function(){var c=find(m[1]);if(!c)return;var all=box.children;for(var q=0;q<all.length;q++)all[q].setAttribute("aria-pressed",all[q]===b?"true":"false");show(c)});
 box.appendChild(b)})
-})()}catch(e){}
-/* ---- 水に流す(灯籠流し) ---- */
-try{(function(){
-var f=$("gff"),t=$("gft"),a=$("gfa"),msg=$("gfm");if(!f)return;
-var MS=["いま、ちょうどよく忘れました。","忘れても、ありがとうは残ります。","よきことは、水に流して。"],busy=false,T=7600;
-function mk(tag,cls){var e=document.createElement(tag);if(cls)e.className=cls;return e}
-function rnd(a,b){return a+Math.random()*(b-a)}
-function lantern(text,done){
-var W=innerWidth,H=innerHeight,ov=mk("div","lt"),i;ov.setAttribute("aria-hidden","true");ov.appendChild(mk("div","lt-bg"));
-var D=T-300;
-/* 水面のきらめき */
-for(i=0;i<7;i++){var w=mk("i","lt-w"),ww=W*rnd(.28,.68);w.style.cssText="top:"+(H*(.6+i*.052)).toFixed(0)+"px;width:"+ww.toFixed(0)+"px;left:"+(-ww).toFixed(0)+"px";ov.appendChild(w);
-(function(w,ww){w.animate([{transform:"translate3d(0,0,0)",opacity:0},{opacity:.9,offset:.35},{opacity:.9,offset:.65},{transform:"translate3d("+(W+ww)+"px,0,0)",opacity:0}],{duration:rnd(2800,4600),delay:rnd(0,2400),easing:"linear",fill:"both"})})(w,ww)}
-/* 小さな灯籠 */
-for(i=0;i<6;i++){var s=mk("div","lt-l lt-sm"),sb=mk("div","lt-b");sb.appendChild(mk("div","lt-cap t"));sb.appendChild(mk("div","lt-body"));sb.appendChild(mk("div","lt-cap d"));s.appendChild(sb);
-var by=H*rnd(.63,.9),sc=.5+(by-H*.6)/(H*.3)*.75,x0=W*rnd(-.05,.45),mv=W*rnd(.35,.6),du=rnd(5200,6600),dl=rnd(500,2400);
-s.style.left=x0.toFixed(0)+"px";s.style.top=(by-32).toFixed(0)+"px";ov.appendChild(s);
-(function(s,sc,mv,du,dl){var p=function(x,y,o){return {transform:"translate3d("+(mv*x).toFixed(0)+"px,"+y+"px,0) scale("+sc.toFixed(2)+")",opacity:o}};
-s.animate([Object.assign(p(0,0,0),{offset:0}),Object.assign(p(.2,-3,.95),{offset:.2}),Object.assign(p(.5,2,.95),{offset:.5}),Object.assign(p(.8,-3,.9),{offset:.8}),Object.assign(p(1,0,0),{offset:1})],{duration:du,delay:dl,easing:"ease-in-out",fill:"both"})})(s,sc,mv,du,dl)}
-/* 本命の灯籠 */
-var L=mk("div","lt-l"),B=mk("div","lt-b"),tx=mk("div","lt-tx");
-var chars=Array.from(text),sp=[];chars.forEach(function(ch){if(ch==="\n"){tx.appendChild(mk("br"));return}var e=mk("span");e.textContent=ch;tx.appendChild(e);sp.push(e)});
-var bd=mk("div","lt-body");bd.appendChild(tx);B.appendChild(mk("div","lt-cap t"));B.appendChild(bd);B.appendChild(mk("div","lt-cap d"));L.appendChild(B);L.appendChild(mk("i","lt-r"));ov.appendChild(L);
-var m=mk("div","lt-m");m.textContent=MS[Math.floor(Math.random()*MS.length)];ov.appendChild(m);
-document.body.appendChild(ov);
-var mw=L.offsetWidth,mh=L.offsetHeight,top0=H*.17,yL=H*.76,dyL=yL-(top0+mh),yF=H*.655,dyF=yF-(top0+mh),dxF=W*.6;
-L.style.left=((W-mw)/2).toFixed(0)+"px";L.style.top=top0.toFixed(0)+"px";
-var tr=function(x,y,s){return "translate3d("+x.toFixed(0)+"px,"+y.toFixed(0)+"px,0) scale("+s+")"};
-L.animate([
-{transform:tr(0,14,.92),opacity:0,offset:0,easing:"ease-out"},
-{transform:tr(0,0,1),opacity:1,offset:.1},
-{transform:tr(0,0,1),opacity:1,offset:.27,easing:"cubic-bezier(.5,0,.85,.6)"},
-{transform:tr(0,dyL+5,.86),opacity:1,offset:.43,easing:"ease-out"},
-{transform:tr(0,dyL,.86),opacity:1,offset:.5,easing:"ease-in-out"},
-{transform:tr(dxF*.7,dyL+(dyF-dyL)*.7,.5),opacity:1,offset:.82},
-{transform:tr(dxF,dyF,.3),opacity:0,offset:1}],{duration:D,fill:"both"});
-B.animate([{transform:"rotate(-2.2deg) translateY(0)"},{transform:"rotate(2.2deg) translateY(-3px)"}],{duration:1500,direction:"alternate",iterations:Infinity,easing:"ease-in-out"});
-L.querySelector(".lt-r").animate([{opacity:0,offset:0},{opacity:0,offset:.43},{opacity:.9,offset:.5},{opacity:.9,offset:.8},{opacity:0,offset:1}],{duration:D,fill:"both"});
-/* 着水の波紋 */
-for(i=0;i<3;i++){var rp=mk("i","lt-rp");rp.style.left=(W/2).toFixed(0)+"px";rp.style.top=(yL-2).toFixed(0)+"px";ov.appendChild(rp);
-rp.animate([{transform:"scale(.2,.06)",opacity:.85},{transform:"scale(2.8,.75)",opacity:0}],{duration:1600,delay:D*.43-80+i*280,easing:"ease-out",fill:"both"})}
-/* 文字が書かれていく */
-var stp=Math.min(60,1300/Math.max(1,sp.length));
-sp.forEach(function(e,k){e.animate([{opacity:0},{opacity:1}],{duration:260,delay:700+k*stp,fill:"forwards"})});
-m.animate([{opacity:0,transform:"translateY(8px)"},{opacity:1,transform:"none",offset:.25},{opacity:1,transform:"none",offset:.75},{opacity:0,transform:"none"}],{duration:2600,delay:4300,fill:"both"});
-ov.animate([{opacity:0},{opacity:1,offset:.1},{opacity:1,offset:.9},{opacity:0}],{duration:T,fill:"forwards"});
-setTimeout(function(){snd("flow",.85)},Math.round(D*.4));
-setTimeout(function(){ov.remove();if(done)done()},T+60)}
-f.addEventListener("submit",function(e){e.preventDefault();if(busy)return;var v=(t.value||"").trim();if(!v){t.focus();msg.textContent="ひとことだけ、置いていってください";msg.classList.add("on");return}
-busy=true;msg.classList.remove("on");
-var fin=function(){t.value="";a.classList.remove("go");msg.textContent=MS[Math.floor(Math.random()*MS.length)];msg.classList.add("on");busy=false};
-if(rm||!document.body.animate){a.classList.add("go");snd("flow",.85);setTimeout(fin,300)}
-else{a.classList.add("go");lantern(v,fin)}})
 })()}catch(e){}
 /* ---- 利用者の声(ノート) ---- */
 try{(function(){

@@ -819,6 +819,16 @@ header .logo .wel::after{content:"";position:absolute;left:16px;bottom:-8px;widt
 @keyframes welfl{0%,100%{translate:0 0}50%{translate:0 -3px}}
 @media (min-width:960px){header .wrap{padding-top:10px}header .logo .wel{right:auto;left:100%;top:50%;margin:-15px 0 0 12px;transform-origin:0 50%}header .logo .wel::after{left:-7px;bottom:auto;top:50%;margin-top:-5px;transform:rotate(135deg) skew(10deg,10deg)}}
 @media (prefers-reduced-motion:reduce){header .logo .wel{animation:none}}
+
+/* LPの強調色: 光沢のあるアンティークゴールド */
+.lp .k1,.lp .em .k1{color:#D6A843;text-shadow:none}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+.lp .k1,.lp .em .k1{background-image:linear-gradient(172deg,#fff0b8 0%,#f2d27c 14%,#d6a843 32%,#b8892c 47%,#e8c568 61%,#fcebb0 72%,#d2a23c 86%,#b8892c 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;-webkit-box-decoration-break:clone;box-decoration-break:clone}}
+/* chooseで選んだら、メニューのカードに「そんなあなたはコレ！」 */
+.mtag{left:50%;top:-20px;transform:translateX(-50%);padding:6px 16px;font-size:15px;letter-spacing:.08em;white-space:nowrap;animation:mtag2 .6s ease-out both,mtagb 1s ease-in-out .6s 5}
+@keyframes mtag2{from{opacity:0;translate:0 10px;scale:.7}to{opacity:1;translate:0 0;scale:1}}
+@keyframes mtagb{0%,100%{translate:0 0}50%{translate:0 -5px}}
+@media (prefers-reduced-motion:reduce){.mtag{animation:none!important}}
 </style>
 </head>
 <body>
@@ -1925,8 +1935,8 @@ var cards=document.querySelectorAll("#menu .grid .card"),tm=0;
 function find(k){for(var i=0;i<cards.length;i++){var h=cards[i].querySelector("h3");if(h&&h.textContent.indexOf(k)>-1)return cards[i]}return null}
 function clear(){var o=document.querySelectorAll("#menu .card.mhit");for(var i=0;i<o.length;i++)o[i].classList.remove("mhit");var t=document.querySelectorAll(".mtag");for(var j=0;j<t.length;j++)t[j].remove()}
 function goTo(c){clear();clearTimeout(tm);if(getComputedStyle(c).position==="static")c.style.position="relative";
-var tag=document.createElement("span");tag.className="mtag";tag.textContent="ぴったり？";c.appendChild(tag);c.classList.add("mhit");
-try{c.scrollIntoView({behavior:rm?"auto":"smooth",block:"center"})}catch(e){c.scrollIntoView()}tm=setTimeout(clear,4500)}
+var tag=document.createElement("span");tag.className="mtag";tag.textContent="そんなあなたはコレ！";c.appendChild(tag);c.classList.add("mhit");
+try{c.scrollIntoView({behavior:rm?"auto":"smooth",block:"center"})}catch(e){c.scrollIntoView()}tm=setTimeout(clear,8000)}
 function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
 function show(c){if(!ans)return;
 var h=c.querySelector("h3"),tag=c.querySelector("p.tag"),ps=c.querySelectorAll("p"),d="",a=c.querySelector("a.btn");
@@ -1942,7 +1952,7 @@ w.appendChild(bt);
 w.appendChild(el("p","a2-s","料金は、サービスを受けたあとに『お気持ち』で。先にお金を決めることはありません。"));
 ans.appendChild(w)}
 M.forEach(function(m){var b=el("button",null,m[0]);b.type="button";b.setAttribute("aria-pressed","false");
-b.addEventListener("click",function(){var c=find(m[1]);if(!c)return;var all=box.children;for(var q=0;q<all.length;q++)all[q].setAttribute("aria-pressed",all[q]===b?"true":"false");show(c)});
+b.addEventListener("click",function(){var c=find(m[1]);if(!c)return;var all=box.children;for(var q=0;q<all.length;q++)all[q].setAttribute("aria-pressed",all[q]===b?"true":"false");goTo(c)});
 box.appendChild(b)})
 })()}catch(e){}
 /* ---- 利用者の声(ノート) ---- */

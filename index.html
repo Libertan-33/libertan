@@ -841,6 +841,17 @@ background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' vie
 #site section .eyebrow::before{counter-increment:sc;content:counter(sc,decimal-leading-zero);font-family:"Zen Antique",serif;font-size:22px;letter-spacing:.04em;line-height:1;color:#a87a22;padding-right:12px;border-right:1px solid rgba(168,122,34,.5)}
 #site section>.wrap>h2::after{content:"";display:block;width:44px;height:2px;margin:16px auto 0;background:linear-gradient(90deg,transparent,#b8892c 30%,#b8892c 70%,transparent)}
 #site section.shop .eyebrow::before,#site section.cta .eyebrow::before{color:#d8b560;border-color:rgba(216,181,96,.5)}
+
+/* 隠し演出: ぽちゃん / 水面から顔を出す */
+.spo{position:fixed;z-index:60;transform:translate(-50%,-30px);font-size:15px;letter-spacing:.12em;color:#fff4d8;text-shadow:0 0 10px rgba(255,200,110,.8);pointer-events:none;animation:spo 1.4s ease-out forwards;white-space:nowrap}
+@keyframes spo{0%{opacity:0;translate:0 8px}20%{opacity:1}100%{opacity:0;translate:0 -22px}}
+.pk{position:fixed;z-index:60;width:0;height:0;pointer-events:none;animation:pko 2.8s ease-in-out forwards}
+.pk-f{position:absolute;left:-32px;top:-62px;width:64px;height:62px;overflow:hidden;display:block}
+.pk-f img{display:block;width:64px;height:64px;border-radius:50%;box-shadow:0 0 0 2px rgba(255,255,255,.55);animation:pki 2.8s cubic-bezier(.2,.8,.3,1) forwards}
+@keyframes pki{0%{transform:translateY(64px)}18%,80%{transform:translateY(2px)}100%{transform:translateY(64px)}}
+.pk-b{position:absolute;left:38px;top:-80px;white-space:nowrap;padding:6px 12px;border-radius:14px;background:rgba(255,251,238,.94);color:#2b2620;font-size:14px;box-shadow:0 4px 14px rgba(0,0,0,.3);animation:pkb 2.8s ease-out forwards}
+@keyframes pkb{0%,14%{opacity:0;scale:.6}26%,78%{opacity:1;scale:1}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.spo,.pk,.pk-f img,.pk-b{animation-duration:.01s;animation-delay:0s}}
 </style>
 </head>
 <body>
@@ -1027,16 +1038,6 @@ background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' vie
 </div>
 </section>
 
-<section id="mood">
-<div class="wrap">
-<p class="eyebrow">CHOOSE</p>
-<h2>りばたんと何する？</h2>
-<p class="lead">気分に近いものを選んでみてください<br>ぴったりのメニューをご案内します</p>
-<div class="chips2" id="moodchips"></div>
-<div id="moodans" aria-live="polite"></div>
-</div>
-</section>
-
 <section id="thanks">
 <div class="wrap">
 <p class="eyebrow">THANKS</p>
@@ -1062,6 +1063,16 @@ background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' vie
 <span class="dwrap" style="margin-top:36px"><a class="btn long" style="color:#fff" href="https://stand.fm/episodes/6ab9149d8d0db5e0ced9f6d5">stand.fm『りばの生声をHPのみの限定で公開 〜noteについて〜』</a><span class="dchar" aria-hidden="true" style="right:0"></span></span>
 </div><button class="fold-x" type="button" data-for="f-media">とじる</button></div></div>
 <div class="btns" style="margin-top:6px"><a class="btn ghost curry" style="margin-top:14px" href="https://www.instagram.com/spicechill_?igsh=MWllZ2tvOHBydGR0ZQ==">🍛 そんなことよりやっぱりカレーが気になる</a></div></div>
+</section>
+
+<section id="mood">
+<div class="wrap">
+<p class="eyebrow">CHOOSE</p>
+<h2>りばたんと何する？</h2>
+<p class="lead">気分に近いものを選んでみてください<br>ぴったりのメニューをご案内します</p>
+<div class="chips2" id="moodchips"></div>
+<div id="moodans" aria-live="polite"></div>
+</div>
 </section>
 
 <section class="cta">
@@ -1412,7 +1423,7 @@ var cv=document.createElement("canvas"),gl=null;cv.setAttribute("aria-hidden","t
 try{gl=cv.getContext("webgl",{antialias:false,alpha:false,powerPreference:"low-power"})}catch(e){}
 if(!gl)return null;
 function sh(t,s){var o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);return gl.getShaderParameter(o,gl.COMPILE_STATUS)?o:null}
-var vs=sh(gl.VERTEX_SHADER,"attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}"),fs=sh(gl.FRAGMENT_SHADER,"#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\nuniform vec2 uR;\nuniform float uSc;\nuniform float uS;\nuniform float uT;\nuniform vec4 uD[10];\nuniform vec2 uTilt;\nuniform float uN;\nconst float FALL=.3;\nfloat hh(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}\nfloat vn(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hh(i),hh(i+vec2(1.,0.)),f.x),mix(hh(i+vec2(0.,1.)),hh(i+vec2(1.,1.)),f.x),f.y);}\nfloat fbm(vec2 p){return .55*vn(p)+.3*vn(p*2.1+7.)+.15*vn(p*4.3+3.);}\nuniform sampler2D uW;\nuniform vec2 uWs;\nuniform vec2 uSz;\nuniform float uAm;\nfloat sm(vec2 p){vec2 t=p/uSz*uWs-.5;vec2 i=floor(t),f=fract(t);vec2 s=1./uWs;float a=texture2D(uW,(i+.5)*s).r,b=texture2D(uW,(i+vec2(1.5,.5))*s).r,c=texture2D(uW,(i+vec2(.5,1.5))*s).r,d=texture2D(uW,(i+1.5)*s).r;return mix(mix(a,b,f.x),mix(c,d,f.x),f.y);}\nfloat H(vec2 p){\n  float h=uAm*sm(p);\n  for(int i=0;i<10;i++){\n    vec4 d=uD[i];\n    float a=uT-d.z;\n    if(a<0.||a>7.)continue;\n    float kd=floor(d.w);\n    if(kd==1.||kd==2.)continue;\n    vec2 q=(p-d.xy)/uS*vec2(1.,1.6);\n    float r=length(q);\n    float cr=6.+46.*a;\n    h-=3.4*exp(-a*3.2)*exp(-r*r/(cr*cr));\n  }\n  return h;\n}\nvec4 bead(vec2 p,vec2 c,float r,float st){\n  vec2 q=(p-c)/r;q.y/=st;\n  float d=length(q);\n  if(d>1.15)return vec4(0.);\n  float a=smoothstep(1.,.88,d);\n  float rim=pow(clamp(d,0.,1.),2.4);\n  vec3 col=mix(vec3(.03,.035,.045),mix(vec3(.8,.85,.9),vec3(1.,.8,.4),uN),rim*.95);\n  col+=vec3(1.)*pow(max(1.-length(q-vec2(-.35,-.42))/.3,0.),2.)*1.5;\n  col+=vec3(.8,.85,.9)*pow(max(1.-length(q-vec2(.28,.5))/.5,0.),2.)*.55;\n  return vec4(col,a);\n}\nvoid main(){\n  vec2 p=vec2(gl_FragCoord.x,uR.y-gl_FragCoord.y)/uSc;\n  vec2 sz=uR/uSc;\n  vec2 uv=p/sz;\n  float e=1.;\n  float h0=H(p),hx=H(p+vec2(e,0.)),hy=H(p+vec2(0.,e));\n  vec2 g=vec2(hx-h0,hy-h0)*uS/e;\n  vec3 n=normalize(vec3(-g,1.));\n  vec3 rf=vec3(2.*n.z*n.x,2.*n.z*n.y,2.*n.z*n.z-1.);\n  float gd=0.;\n  for(int i=0;i<10;i++){vec4 d=uD[i];float a=uT-d.z;if(floor(d.w)==3.&&a>0.&&a<4.)gd=max(gd,exp(-a*.7));}\n  float tn=clamp(uN+gd,0.,1.);\n  vec3 L1=normalize(vec3(uTilt.x*.7,-.6+uTilt.y*.7,.8)),L2=normalize(vec3(.75,.4,.55)),L3=normalize(vec3(-.45,-.55,.7));\n  float e1=max(dot(rf,L1),0.),e2=max(dot(rf,L2),0.),e3=max(dot(rf,L3),0.);\n  vec3 col=mix(vec3(.82,.87,.93),vec3(1.,.62,.18),tn)*pow(e1,12.)*1.8+mix(vec3(.3,.34,.42),vec3(.6,.26,.04),tn)*pow(e2,10.)*.8+vec3(1.)*pow(e1,85.)*1.2+vec3(.97,.98,1.)*pow(e3,120.)*.9;\n  float nb=fbm(p*.0042+g*14.+vec2(uT*.012,0.));\n  col+=mix(vec3(.11,.125,.15),vec3(.3,.16,.04),tn)*pow(nb,2.6)*.5*(.4+.6*smoothstep(0.,.9,1.-uv.y));\n  col*=1.-.5*dot(uv-.5,uv-.5)*2.;\n  col=1.-exp(-col*1.25);\n  for(int i=0;i<10;i++){\n    vec4 d=uD[i];\n    float a=uT-d.z;\n    float kd=floor(d.w);\n    if(a<-FALL||a>.95||kd==1.||kd==2.)continue;\n    if(a<0.){\n      float u=(a+FALL)/FALL;\n      vec4 b=bead(p,d.xy+vec2(0.,-175.*uS*(1.-u*u)),5.6*uS,1.+.5*(1.-u));\n      col=mix(col,b.rgb,b.a);\n    }else{\n      float k=sin(3.1416*a/.9);\n      float jh=64.*uS*pow(max(k,0.),.75);\n      float fo=1.-smoothstep(.72,.92,a);\n      float dy=d.y-p.y,dx=p.x-d.x;\n      if(dy>0.&&dy<jh){\n        float t=dy/jh;\n        float hw=uS*(2.7-1.4*t);\n        float m=smoothstep(hw,hw*.55,abs(dx));\n        vec3 jc=mix(vec3(.04,.045,.055),vec3(.85,.9,.95),pow(abs(dx)/hw,2.))+vec3(1.)*pow(max(1.-abs(dx+.45*hw)/(.28*hw),0.),2.)*.8;\n        col=mix(col,jc,m*.92*fo);\n      }\n      vec4 b=bead(p,d.xy+vec2(0.,-jh),4.6*uS,1.2);\n      col=mix(col,b.rgb,b.a*fo);\n      if(a>.16){\n        float up=smoothstep(.16,.8,a);\n        vec4 b2=bead(p,d.xy+vec2(0.,-(jh+46.*uS*up)),3.2*uS,1.1);\n        col=mix(col,b2.rgb,b2.a*fo);\n      }\n    }\n  }\n  gl_FragColor=vec4(col,1.);\n}\n");
+var vs=sh(gl.VERTEX_SHADER,"attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}"),fs=sh(gl.FRAGMENT_SHADER,"#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\nuniform vec2 uR;\nuniform float uSc;\nuniform float uS;\nuniform float uT;\nuniform vec4 uD[10];\nuniform vec2 uTilt;\nuniform float uN;\nconst float FALL=.3;\nfloat hh(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}\nfloat vn(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hh(i),hh(i+vec2(1.,0.)),f.x),mix(hh(i+vec2(0.,1.)),hh(i+vec2(1.,1.)),f.x),f.y);}\nfloat fbm(vec2 p){return .55*vn(p)+.3*vn(p*2.1+7.)+.15*vn(p*4.3+3.);}\nuniform sampler2D uW;\nuniform vec2 uWs;\nuniform vec2 uSz;\nuniform float uAm;\nfloat sm(vec2 p){vec2 t=p/uSz*uWs-.5;vec2 i=floor(t),f=fract(t);vec2 s=1./uWs;float a=texture2D(uW,(i+.5)*s).r,b=texture2D(uW,(i+vec2(1.5,.5))*s).r,c=texture2D(uW,(i+vec2(.5,1.5))*s).r,d=texture2D(uW,(i+1.5)*s).r;return mix(mix(a,b,f.x),mix(c,d,f.x),f.y);}\nfloat H(vec2 p){\n  float h=uAm*sm(p);\n  for(int i=0;i<10;i++){\n    vec4 d=uD[i];\n    float a=uT-d.z;\n    if(a<0.||a>7.)continue;\n    float kd=floor(d.w);\n    if(kd==1.||kd==2.)continue;\n    vec2 q=(p-d.xy)/uS*vec2(1.,1.6);\n    float r=length(q);\n    float cr=6.+46.*a;\n    h-=3.4*exp(-a*3.2)*exp(-r*r/(cr*cr));\n  }\n  return h;\n}\nvec4 bead(vec2 p,vec2 c,float r,float st){\n  vec2 q=(p-c)/r;q.y/=st;\n  float d=length(q);\n  if(d>1.15)return vec4(0.);\n  float a=smoothstep(1.,.88,d);\n  float rim=pow(clamp(d,0.,1.),2.4);\n  vec3 col=mix(vec3(.03,.035,.045),mix(vec3(.8,.85,.9),vec3(1.,.8,.4),uN),rim*.95);\n  col+=vec3(1.)*pow(max(1.-length(q-vec2(-.35,-.42))/.3,0.),2.)*1.5;\n  col+=vec3(.8,.85,.9)*pow(max(1.-length(q-vec2(.28,.5))/.5,0.),2.)*.55;\n  return vec4(col,a);\n}\nvoid main(){\n  vec2 p=vec2(gl_FragCoord.x,uR.y-gl_FragCoord.y)/uSc;\n  vec2 sz=uR/uSc;\n  vec2 uv=p/sz;\n  float e=1.;\n  float h0=H(p),hx=H(p+vec2(e,0.)),hy=H(p+vec2(0.,e));\n  vec2 g=vec2(hx-h0,hy-h0)*uS/e;\n  vec3 n=normalize(vec3(-g,1.));\n  vec3 rf=vec3(2.*n.z*n.x,2.*n.z*n.y,2.*n.z*n.z-1.);\n  float gd=0.;\n  for(int i=0;i<10;i++){vec4 d=uD[i];float a=uT-d.z;if(floor(d.w)==3.&&a>0.&&a<4.)gd=max(gd,exp(-a*.7));}\n  float tn=clamp(uN+gd,0.,1.);\n  vec3 L1=normalize(vec3(uTilt.x*.7,-.6+uTilt.y*.7,.8)),L2=normalize(vec3(.75,.4,.55)),L3=normalize(vec3(-.45,-.55,.7));\n  float e1=max(dot(rf,L1),0.),e2=max(dot(rf,L2),0.),e3=max(dot(rf,L3),0.);\n  vec3 col=mix(vec3(.82,.87,.93),vec3(1.,.62,.18),tn)*pow(e1,12.)*1.8+mix(vec3(.3,.34,.42),vec3(.6,.26,.04),tn)*pow(e2,10.)*.8+vec3(1.)*pow(e1,85.)*1.2+vec3(.97,.98,1.)*pow(e3,120.)*.9;\n  float nb=fbm(p*.0042+g*14.+vec2(uT*.012,0.));\n  col+=mix(vec3(.11,.125,.15),vec3(.3,.16,.04),tn)*pow(nb,2.6)*.5*(.4+.6*smoothstep(0.,.9,1.-uv.y));\n  col*=1.-.5*dot(uv-.5,uv-.5)*2.;\n  col=1.-exp(-col*1.25);\n  for(int i=0;i<10;i++){vec4 d=uD[i];float a=uT-d.z;float kd=floor(d.w);if(a<0.||a>3.5||kd==1.||kd==2.)continue;float r=length((p-d.xy)/uS*vec2(1.,1.6));float x=(r-(8.+115.*a))/10.;col+=vec3(1.,.74,.28)*exp(-x*x)*exp(-a*1.2)*.55*uN;}\n  for(int i=0;i<10;i++){\n    vec4 d=uD[i];\n    float a=uT-d.z;\n    float kd=floor(d.w);\n    if(a<-FALL||a>.95||kd==1.||kd==2.)continue;\n    if(a<0.){\n      float u=(a+FALL)/FALL;\n      vec4 b=bead(p,d.xy+vec2(0.,-175.*uS*(1.-u*u)),5.6*uS,1.+.5*(1.-u));\n      col=mix(col,b.rgb,b.a);\n    }else{\n      float k=sin(3.1416*a/.9);\n      float jh=64.*uS*pow(max(k,0.),.75);\n      float fo=1.-smoothstep(.72,.92,a);\n      float dy=d.y-p.y,dx=p.x-d.x;\n      if(dy>0.&&dy<jh){\n        float t=dy/jh;\n        float hw=uS*(2.7-1.4*t);\n        float m=smoothstep(hw,hw*.55,abs(dx));\n        vec3 jc=mix(vec3(.04,.045,.055),vec3(.85,.9,.95),pow(abs(dx)/hw,2.))+vec3(1.)*pow(max(1.-abs(dx+.45*hw)/(.28*hw),0.),2.)*.8;\n        col=mix(col,jc,m*.92*fo);\n      }\n      vec4 b=bead(p,d.xy+vec2(0.,-jh),4.6*uS,1.2);\n      col=mix(col,b.rgb,b.a*fo);\n      if(a>.16){\n        float up=smoothstep(.16,.8,a);\n        vec4 b2=bead(p,d.xy+vec2(0.,-(jh+46.*uS*up)),3.2*uS,1.1);\n        col=mix(col,b2.rgb,b2.a*fo);\n      }\n    }\n  }\n  gl_FragColor=vec4(col,1.);\n}\n");
 if(!vs||!fs)return null;
 function mkT(w,h,ty){var t=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,w,h,0,gl.RGBA,ty,null);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);var f=gl.createFramebuffer();gl.bindFramebuffer(gl.FRAMEBUFFER,f);gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,t,0);var ok=gl.checkFramebufferStatus(gl.FRAMEBUFFER)===gl.FRAMEBUFFER_COMPLETE;gl.clearColor(0,0,0,1);gl.clear(gl.COLOR_BUFFER_BIT);gl.bindFramebuffer(gl.FRAMEBUFFER,null);return{t:t,f:f,ok:ok}}
 var TY=0;
@@ -1459,12 +1470,18 @@ return{add:function(px,py,kind){kind=kind||0;var t=now();if(kind===0&&lk===0&&Ma
 window.__ripple=GLR;
 
 
-function ring2(px,py){if(GLR&&GLR.add(px,py,0)){wob(px,py);return}if(!swEl)return;var e=document.createElement("div");e.className="sr";e.style.left=px+"px";e.style.top=py+"px";swEl.appendChild(e);setTimeout(function(){e.remove()},3000)}
+var RD=[];function rec(x,y){RD.push([x,y,performance.now()]);if(RD.length>14)RD.shift()}
+function meet(x,y){var u=Math.max(.9,Math.min(1.7,Math.min(innerWidth,innerHeight)/390)),n=0,t=performance.now();for(var i=0;i<RD.length;i++){var a=(t-RD[i][2])/1000;if(a<.5||a>4.5)continue;var dx=x-RD[i][0],dy=(y-RD[i][1])*1.6;if(Math.abs(Math.sqrt(dx*dx+dy*dy)-115*u*a)<26*u)n++}return n>=2}
+function pochan(x,y){if(want&&WD){try{var q=WD.cloneNode();q.volume=.55;q.playbackRate=1.4;var pp=q.play();if(pp&&pp.catch)pp.catch(function(){})}catch(e){}}if(GLR){GLR.add(x,y,1);setTimeout(function(){GLR.add(x,y,1)},160)}var m=document.createElement("div");m.className="spo";m.textContent="ぽちゃん♪";m.style.left=x+"px";m.style.top=y+"px";stEl.appendChild(m);setTimeout(function(){m.remove()},1500)}
+function peek(x,y){if(begun)return;var L=["ぷはっ！","呼んだ？","水の中も悪くないよ","ここにもワクワクあるよ"],d=document.createElement("div");d.className="pk";d.style.left=x+"px";d.style.top=y+"px";d.innerHTML='<span class="pk-f"><img src="icon-192.png" alt="" width="64" height="64"></span><span class="pk-b"></span>';d.querySelector(".pk-b").textContent=L[Math.floor(Math.random()*L.length)];stEl.appendChild(d);var bb=d.querySelector(".pk-b");if(x>innerWidth-190){bb.style.left="auto";bb.style.right="38px"}if(GLR){GLR.add(x,y,1);setTimeout(function(){GLR.add(x,y,1)},180);setTimeout(function(){GLR.add(x,y,1)},380)}setTimeout(function(){d.remove()},2800)}
+function ring2(px,py){rec(px,py);if(GLR&&GLR.add(px,py,0)){wob(px,py);return}if(!swEl)return;var e=document.createElement("div");e.className="sr";e.style.left=px+"px";e.style.top=py+"px";swEl.appendChild(e);setTimeout(function(){e.remove()},3000)}
 var WT=[];
 function wob(px,py){if(!stEl)return;var els=stEl.querySelectorAll(".st");for(var i=0;i<els.length;i++){(function(el){var r=el.getBoundingClientRect();if(!r.width)return;var dx=px-(r.left+r.width/2),dy=(py-(r.top+r.height/2))*1.6,d=Math.sqrt(dx*dx+dy*dy)/Math.max(.9,Math.min(1.7,Math.min(innerWidth,innerHeight)/390)),a=Math.pow(d/86,1/.82);if(a>3.2)return;setTimeout(function(){if(begun)return;el.classList.add("rf");setTimeout(function(){el.classList.remove("rf")},300)},(.3+a)*1000)})(els[i])}}
 if(GLR&&stEl){
 var lmv=0;
-stEl.addEventListener("pointerdown",function(ev){if(begun)return;if(ev.target.closest&&ev.target.closest("button"))return;var px=ev.clientX,py=ev.clientY;ring2(px,py)});
+stEl.addEventListener("pointerdown",function(ev){if(begun)return;if(ev.target.closest&&ev.target.closest("button"))return;var px=ev.clientX,py=ev.clientY,hit=meet(px,py);ring2(px,py);if(hit)pochan(px,py);clearTimeout(lp);lp=setTimeout(function(){peek(px,py)},650);lpx=px;lpy=py});
+var lp=0,lpx=0,lpy=0;function lpc(){clearTimeout(lp)}
+stEl.addEventListener("pointerup",lpc);stEl.addEventListener("pointercancel",lpc);stEl.addEventListener("pointermove",function(ev){if(Math.abs(ev.clientX-lpx)+Math.abs(ev.clientY-lpy)>14)lpc()});
 stEl.addEventListener("pointermove",function(ev){if(begun)return;if(ev.pointerType==="mouse"){GLR.tilt((ev.clientX/innerWidth-.5)*1.4,(ev.clientY/innerHeight-.5)*1.4);var t=performance.now();if(t-lmv>140&&!ev.buttons){lmv=t;GLR.add(ev.clientX,ev.clientY,1)}}});
 [sb,nb].forEach(function(b){if(b)b.addEventListener("click",function(ev){GLR.perm();var r=b.getBoundingClientRect();window.__dive={x:r.left+r.width/2,y:r.top+r.height/2}},true)});
 }

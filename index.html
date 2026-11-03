@@ -852,6 +852,10 @@ background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' vie
 .pk-b{position:absolute;left:38px;top:-80px;white-space:nowrap;padding:6px 12px;border-radius:14px;background:rgba(255,251,238,.94);color:#2b2620;font-size:14px;box-shadow:0 4px 14px rgba(0,0,0,.3);animation:pkb 2.8s ease-out forwards}
 @keyframes pkb{0%,14%{opacity:0;scale:.6}26%,78%{opacity:1;scale:1}100%{opacity:0}}
 @media (prefers-reduced-motion:reduce){.spo,.pk,.pk-f img,.pk-b{animation-duration:.01s;animation-delay:0s}}
+
+/* スタート画面: 長押しで選択・コピーが出ないように / 長押しの演出を邪魔させない */
+#start,#start *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
+#start{touch-action:none}
 </style>
 </head>
 <body>
@@ -1480,7 +1484,7 @@ function wob(px,py){if(!stEl)return;var els=stEl.querySelectorAll(".st");for(var
 if(GLR&&stEl){
 var lmv=0;
 stEl.addEventListener("pointerdown",function(ev){if(begun)return;if(ev.target.closest&&ev.target.closest("button"))return;var px=ev.clientX,py=ev.clientY,hit=meet(px,py);ring2(px,py);if(hit)pochan(px,py);clearTimeout(lp);lp=setTimeout(function(){peek(px,py)},650);lpx=px;lpy=py});
-var lp=0,lpx=0,lpy=0;function lpc(){clearTimeout(lp)}
+var lp=0,lpx=0,lpy=0;stEl.addEventListener("contextmenu",function(ev){ev.preventDefault()});stEl.addEventListener("selectstart",function(ev){ev.preventDefault()});stEl.addEventListener("dragstart",function(ev){ev.preventDefault()});function lpc(){clearTimeout(lp)}
 stEl.addEventListener("pointerup",lpc);stEl.addEventListener("pointercancel",lpc);stEl.addEventListener("pointermove",function(ev){if(Math.abs(ev.clientX-lpx)+Math.abs(ev.clientY-lpy)>14)lpc()});
 stEl.addEventListener("pointermove",function(ev){if(begun)return;if(ev.pointerType==="mouse"){GLR.tilt((ev.clientX/innerWidth-.5)*1.4,(ev.clientY/innerHeight-.5)*1.4);var t=performance.now();if(t-lmv>140&&!ev.buttons){lmv=t;GLR.add(ev.clientX,ev.clientY,1)}}});
 [sb,nb].forEach(function(b){if(b)b.addEventListener("click",function(ev){GLR.perm();var r=b.getBoundingClientRect();window.__dive={x:r.left+r.width/2,y:r.top+r.height/2}},true)});

@@ -829,6 +829,18 @@ header .logo .wel::after{content:"";position:absolute;left:16px;bottom:-8px;widt
 @keyframes mtag2{from{opacity:0;translate:0 10px;scale:.7}to{opacity:1;translate:0 0;scale:1}}
 @keyframes mtagb{0%,100%{translate:0 0}50%{translate:0 -5px}}
 @media (prefers-reduced-motion:reduce){.mtag{animation:none!important}}
+
+/* ===== メリハリ: 章の区切り(波紋の飾り罫) / 章番号 / 見出し飾り / 帯の縁 ===== */
+#site{counter-reset:sc}
+#site section{position:relative}
+#site section:not(.intro):not(.lp)+section::before,#site section.alt::before{content:"";position:absolute;left:50%;top:-1px;width:min(300px,78%);height:26px;transform:translateX(-50%);pointer-events:none;z-index:2;
+background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 26'%3E%3Cdefs%3E%3ClinearGradient id='l' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23b8892c' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23b8892c' stop-opacity='.85'/%3E%3C/linearGradient%3E%3ClinearGradient id='r' x1='1' x2='0'%3E%3Cstop offset='0' stop-color='%23b8892c' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23b8892c' stop-opacity='.85'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='0' y='13' width='118' height='1.2' fill='url(%23l)'/%3E%3Crect x='182' y='13' width='118' height='1.2' fill='url(%23r)'/%3E%3Cg fill='none' stroke='%23b8892c' stroke-width='1.2'%3E%3Cellipse cx='150' cy='13.6' rx='5' ry='2.2'/%3E%3Cellipse cx='150' cy='13.6' rx='11' ry='4.8' stroke-opacity='.7'/%3E%3Cellipse cx='150' cy='13.6' rx='18' ry='7.6' stroke-opacity='.4'/%3E%3C/g%3E%3Ccircle cx='150' cy='13.6' r='1.8' fill='%23b8892c'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+#site section.alt{box-shadow:inset 0 1px 0 rgba(255,255,255,.75),inset 0 -1px 0 rgba(255,255,255,.75),inset 0 22px 24px -22px rgba(255,255,255,.55),inset 0 -22px 24px -22px rgba(255,255,255,.55)}
+#site section{padding:88px 0 76px}
+#site section .eyebrow{display:flex;align-items:center;justify-content:center;gap:12px;font-size:12.5px;letter-spacing:.32em;color:var(--deep);margin-bottom:14px}
+#site section .eyebrow::before{counter-increment:sc;content:counter(sc,decimal-leading-zero);font-family:"Zen Antique",serif;font-size:22px;letter-spacing:.04em;line-height:1;color:#a87a22;padding-right:12px;border-right:1px solid rgba(168,122,34,.5)}
+#site section>.wrap>h2::after{content:"";display:block;width:44px;height:2px;margin:16px auto 0;background:linear-gradient(90deg,transparent,#b8892c 30%,#b8892c 70%,transparent)}
+#site section.shop .eyebrow::before,#site section.cta .eyebrow::before{color:#d8b560;border-color:rgba(216,181,96,.5)}
 </style>
 </head>
 <body>
@@ -1015,6 +1027,16 @@ header .logo .wel::after{content:"";position:absolute;left:16px;bottom:-8px;widt
 </div>
 </section>
 
+<section id="mood">
+<div class="wrap">
+<p class="eyebrow">CHOOSE</p>
+<h2>りばたんと何する？</h2>
+<p class="lead">気分に近いものを選んでみてください<br>ぴったりのメニューをご案内します</p>
+<div class="chips2" id="moodchips"></div>
+<div id="moodans" aria-live="polite"></div>
+</div>
+</section>
+
 <section id="thanks">
 <div class="wrap">
 <p class="eyebrow">THANKS</p>
@@ -1026,16 +1048,6 @@ header .logo .wel::after{content:"";position:absolute;left:16px;bottom:-8px;widt
 <div class="nb-ctl"><button class="nb-b" type="button" id="nbprev" aria-label="前のページ">‹</button><button class="nb-b" type="button" id="nbnext" aria-label="次のページ">›</button></div>
 <p class="nb-h">← 左にスワイプして めくれます</p></div>
 <button class="fold-x" type="button" data-for="f-thanks">とじる</button></div></div>
-</div>
-</section>
-
-<section id="mood">
-<div class="wrap">
-<p class="eyebrow">CHOOSE</p>
-<h2>りばたんと何する？</h2>
-<p class="lead">気分に近いものを選んでみてください<br>ぴったりのメニューをご案内します</p>
-<div class="chips2" id="moodchips"></div>
-<div id="moodans" aria-live="polite"></div>
 </div>
 </section>
 
@@ -1451,8 +1463,8 @@ function ring2(px,py){if(GLR&&GLR.add(px,py,0)){wob(px,py);return}if(!swEl)retur
 var WT=[];
 function wob(px,py){if(!stEl)return;var els=stEl.querySelectorAll(".st");for(var i=0;i<els.length;i++){(function(el){var r=el.getBoundingClientRect();if(!r.width)return;var dx=px-(r.left+r.width/2),dy=(py-(r.top+r.height/2))*1.6,d=Math.sqrt(dx*dx+dy*dy)/Math.max(.9,Math.min(1.7,Math.min(innerWidth,innerHeight)/390)),a=Math.pow(d/86,1/.82);if(a>3.2)return;setTimeout(function(){if(begun)return;el.classList.add("rf");setTimeout(function(){el.classList.remove("rf")},300)},(.3+a)*1000)})(els[i])}}
 if(GLR&&stEl){
-var taps=[],lmv=0;
-stEl.addEventListener("pointerdown",function(ev){if(begun)return;if(ev.target.closest&&ev.target.closest("button"))return;var px=ev.clientX,py=ev.clientY;ring2(px,py);var t=Date.now();taps.push(t);while(taps.length&&t-taps[0]>4000)taps.shift();if(taps.length>=5){taps.length=0;GLR.add(innerWidth/2,innerHeight*.5,3);var m=document.createElement("div");m.className="stoast";m.textContent="みつけた！ ✨";stEl.appendChild(m);setTimeout(function(){m.remove()},2600)}});
+var lmv=0;
+stEl.addEventListener("pointerdown",function(ev){if(begun)return;if(ev.target.closest&&ev.target.closest("button"))return;var px=ev.clientX,py=ev.clientY;ring2(px,py)});
 stEl.addEventListener("pointermove",function(ev){if(begun)return;if(ev.pointerType==="mouse"){GLR.tilt((ev.clientX/innerWidth-.5)*1.4,(ev.clientY/innerHeight-.5)*1.4);var t=performance.now();if(t-lmv>140&&!ev.buttons){lmv=t;GLR.add(ev.clientX,ev.clientY,1)}}});
 [sb,nb].forEach(function(b){if(b)b.addEventListener("click",function(ev){GLR.perm();var r=b.getBoundingClientRect();window.__dive={x:r.left+r.width/2,y:r.top+r.height/2}},true)});
 }

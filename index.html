@@ -865,8 +865,14 @@ background:radial-gradient(ellipse 55% 45% at 30% 22%,rgba(255,255,255,.5),rgba(
 #start,#start *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
 #start{touch-action:none}
 
-#lbn .lpn{position:relative;margin:0 0 2px;font-size:20px;font-weight:700;color:#7d1a0f}#lbn .lpn b{font-size:clamp(40px,13vw,54px);letter-spacing:.02em;font-variant-numeric:tabular-nums;text-shadow:0 1px 0 rgba(255,246,200,.95),0 3px 6px rgba(90,40,0,.35)}
-#lbn .lc:not(:has(.ls)) .lm{font-size:19px}
+#lbn .rq1{position:relative;margin:2px 0 6px;font-size:clamp(20px,6.2vw,25px);font-weight:900;letter-spacing:.06em;color:#2a1500;text-shadow:0 1px 0 rgba(255,246,200,.95),0 0 10px rgba(255,246,200,.6)}
+#lbn .rq2{position:relative;margin:0 0 14px;font-size:clamp(15px,4.6vw,18px);font-weight:700;letter-spacing:.05em;color:#3b1d00;text-shadow:0 1px 0 rgba(255,246,200,.9)}
+#lbn .rbox{position:relative;padding:10px 12px 12px;border-radius:14px;background:linear-gradient(180deg,#2d1d06,#140d02);box-shadow:inset 0 3px 8px rgba(0,0,0,.7),0 0 0 1px #6b4608,0 1px 0 rgba(255,240,170,.7)}
+#lbn .rk{display:block;font-size:14px;font-weight:700;letter-spacing:.5em;text-indent:.5em;color:#f3d98a}
+#lbn .lpn{position:relative;margin:2px 0 0;display:flex;justify-content:center;align-items:baseline;gap:4px;color:#fff3c4}
+#lbn .lpn b{font-size:clamp(42px,14vw,58px);font-weight:900;letter-spacing:.02em;font-variant-numeric:tabular-nums;line-height:1.1;background:linear-gradient(180deg,#fffbe0,#ffe27a 45%,#f0b52a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;filter:drop-shadow(0 2px 0 rgba(90,50,0,.9))}
+#lbn .lpn span{font-size:22px;font-weight:700;color:#ffe9a0}
+#lbn .rqt{margin:14px 0 4px;padding:9px 12px;border-radius:12px;background:rgba(255,248,222,.94);color:#5a0f06;font-size:clamp(16px,4.9vw,19px);line-height:1.5;text-shadow:none;box-shadow:inset 0 0 0 1px rgba(138,90,10,.45)}
 </style>
 </head>
 <body>
@@ -1783,10 +1789,10 @@ var nb=ac.createBuffer(1,Math.floor(ac.sampleRate*.07),ac.sampleRate),d=nb.getCh
 [[1318.5,.20,1.3],[1976,.14,1.0],[3322,.08,.8]].forEach(function(p){var b=ac.createOscillator(),bg=ac.createGain();b.type="sine";b.frequency.value=p[0];bg.gain.setValueAtTime(0,t+.012);bg.gain.linearRampToValueAtTime(p[1],t+.025);bg.gain.exponentialRampToValueAtTime(.001,t+.02+p[2]);b.connect(bg);bg.connect(m);b.start(t);b.stop(t+p[2]+.1)});
 [[3136,.07],[3951,.115],[4699,.16],[6272,.21]].forEach(function(p){var b=ac.createOscillator(),bg=ac.createGain();b.type="sine";b.frequency.value=p[0];bg.gain.setValueAtTime(0,t+p[1]);bg.gain.linearRampToValueAtTime(.07,t+p[1]+.01);bg.gain.exponentialRampToValueAtTime(.001,t+p[1]+.3);b.connect(bg);bg.connect(m);b.start(t+p[1]);b.stop(t+p[1]+.35)})}catch(e){}}
 function today(){var d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()}
-var QUIPS=["高みを目指せ！","その調子、もっと触れ！","まだまだ伸びしろしかない！","レアキャラ使いの才能アリ！","次は記録更新だ！","ワクワクは自分で稼ぐものだ！","指先の達人かよ…！","この感覚、忘れるな！","ポイントの向こうに景色がある！","今日のあなた、最高にキマってる！"];
+var QUIPS=["指先の達人かよ…！","高みを目指せ！","その調子、もっと触れ！","次は記録更新だ！","今日のあなた、最高にキマってる！","今の指、ちょっと光ってた","君の人差し指、免許皆伝です","水面が君を覚えた","今日のりばたん運、使い切ったかも","宇宙が一瞬ざわついた","その指、保険かけたほうがいい","前世は光の速さでタップしてた","ポイントが君を追いかけてる","魚たちが拍手してる","指紋が金色になる日も近い","この感覚、忘れるな！","今夜はいい夢が見れそう","りばたんが一瞬こっち見た"];
 function ptsReport(){var P=window.__lpPts|0;if(P<=0)return;window.__lpPts=0;
  var q=QUIPS[Math.floor(Math.random()*QUIPS.length)],o=document.createElement("div");o.id="lbn";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");o.setAttribute("aria-label","今回のポイント");
- o.innerHTML='<div class="lc"><i class="sp" style="left:12px;top:10px"></i><i class="sp" style="right:14px;top:18px;animation-delay:.5s"></i><i class="sp" style="left:22px;bottom:16px;animation-delay:1s"></i><i class="sp" style="right:10px;bottom:44px;animation-delay:.25s"></i><p class="lt">✨レアキャラ報告✨</p><p class="lh">今回のポイント</p><p class="lpn"><b>0</b>点！</p><p class="lm">'+q+'</p><button type="button" class="lx">とじる</button></div>';
+ o.innerHTML='<div class="lc"><i class="sp" style="left:12px;top:10px"></i><i class="sp" style="right:14px;top:18px;animation-delay:.5s"></i><i class="sp" style="left:22px;bottom:16px;animation-delay:1s"></i><i class="sp" style="right:10px;bottom:44px;animation-delay:.25s"></i><p class="rq1">君はチャレンジした？！</p><p class="rq2">レアキャラタップでゲットだぜ！</p><div class="rbox"><span class="rk">得点</span><p class="lpn"><b>0</b><span>点</span></p></div><p class="lm rqt">'+q+'</p><button type="button" class="lx">とじる</button></div>';
  document.body.appendChild(o);var lc=o.querySelector(".lc"),nb=o.querySelector(".lpn b");
  function close(){o.classList.remove("on");setTimeout(function(){o.remove()},400)}
  o.addEventListener("click",function(e){if(e.target.closest(".lx"))close()});

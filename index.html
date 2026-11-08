@@ -1295,7 +1295,8 @@ function dsAward(m,px,py){var v=BigInt(33)*BigInt(10)**BigInt(60)*BigInt(m);wind
 for(var q=0;q<(m>1?30:16);q++){var an=Math.random()*6.2832,sp=2+Math.random()*(m>1?7:4);GP.push({x:px,y:py,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp,l:1,s:8+Math.random()*10})}
 try{if(navigator.vibrate)navigator.vibrate(m>1?[30,30,80]:[20])}catch(e){}if(m>1&&(!window.__libWant||window.__libWant()))lpBlow()}
 document.addEventListener("pointerdown",function(ev){if(HID)return;if(dsCatch(ev))return;var b=hitC(ev);if(b){HID=b;b.h=true;b.rl=0;b.t0=performance.now();if(!BA){try{BA=new Audio("blow.mp3");BA.preload="auto";BA.load()}catch(e){}}lpLoad();fOn();if(ev.pointerType==="mouse"&&ev.cancelable)ev.preventDefault()}},true);
-document.addEventListener("touchstart",function(ev){if(hitC(ev)&&ev.cancelable)ev.preventDefault()},{capture:true,passive:false});
+document.addEventListener("touchstart",function(ev){if((DSH||hitC(ev))&&ev.cancelable)ev.preventDefault()},{capture:true,passive:false});
+document.addEventListener("touchmove",function(ev){if(DSH&&ev.cancelable)ev.preventDefault()},{capture:true,passive:false});
 document.addEventListener("pointerup",relC,true);document.addEventListener("pointercancel",relC,true);addEventListener("blur",relC);
 })();
 (function(){var bar=document.getElementById("bar");

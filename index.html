@@ -1804,7 +1804,7 @@ function kanji(b){var s=b.toString(),g=[],r="";if(s==="0")return "0";for(var e=s
 function hasPts(){return typeof window.__lpPts==="bigint"&&window.__lpPts>BigInt(0)}
 function ptsReport(){if(!hasPts())return;var P=window.__lpPts;window.__lpPts=BigInt(0);
  var q=QUIPS[Math.floor(Math.random()*QUIPS.length)],o=document.createElement("div");o.id="lbn";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");o.setAttribute("aria-label","今回のポイント");
- o.innerHTML='<div class="lc"><i class="sp" style="left:12px;top:10px"></i><i class="sp" style="right:14px;top:18px;animation-delay:.5s"></i><i class="sp" style="left:22px;bottom:16px;animation-delay:1s"></i><i class="sp" style="right:10px;bottom:44px;animation-delay:.25s"></i><p class="rq1">君はチャレンジした？！</p><p class="rq2">レアキャラタップでゲットだぜ！</p><div class="rbox"><span class="rk">得点</span><p class="lpn"><b>0</b><span>点</span></p></div><p class="lm rqt">'+q+'</p><button type="button" class="lx">とじる</button></div>';
+ o.innerHTML='<div class="lc"><i class="sp" style="left:12px;top:10px"></i><i class="sp" style="right:14px;top:18px;animation-delay:.5s"></i><i class="sp" style="left:22px;bottom:16px;animation-delay:1s"></i><i class="sp" style="right:10px;bottom:44px;animation-delay:.25s"></i><p class="rq1">君はチャレンジした？！</p><p class="rq2">りばゲッチュウ 〜余白の嗜み〜</p><div class="rbox"><span class="rk">得点</span><p class="lpn"><b>0</b><span>点</span></p></div><p class="lm rqt">'+q+'</p><button type="button" class="lx">とじる</button></div>';
  document.body.appendChild(o);var lc=o.querySelector(".lc"),nb=o.querySelector(".lpn b");
  function close(){o.classList.remove("on");setTimeout(function(){o.remove()},400)}
  o.addEventListener("click",function(e){if(e.target.closest(".lx"))close()});

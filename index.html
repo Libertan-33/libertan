@@ -873,6 +873,10 @@ background:radial-gradient(ellipse 55% 45% at 30% 22%,rgba(255,255,255,.5),rgba(
 #lbn .lpn b{font-size:clamp(42px,14vw,58px);font-weight:900;letter-spacing:.02em;font-variant-numeric:tabular-nums;line-height:1.1;background:linear-gradient(180deg,#fffbe0,#ffe27a 45%,#f0b52a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;filter:drop-shadow(0 2px 0 rgba(90,50,0,.9))}
 #lbn .lpn span{font-size:22px;font-weight:700;color:#ffe9a0}
 #lbn .rqt{margin:14px 0 4px;padding:9px 12px;border-radius:12px;background:rgba(255,248,222,.94);color:#5a0f06;font-size:clamp(16px,4.9vw,19px);line-height:1.5;text-shadow:none;box-shadow:inset 0 0 0 1px rgba(138,90,10,.45)}
+
+#ptb{position:fixed;left:12px;bottom:64px;z-index:90;display:none;padding:8px 14px;border-radius:999px;border:1px solid #d9ac3c;background:rgba(24,16,4,.82);color:#f6dc82;font:700 13px/1 "Shippori Mincho","Noto Serif JP",serif;letter-spacing:.06em;box-shadow:0 4px 14px rgba(0,0,0,.35);cursor:pointer;-webkit-tap-highlight-color:transparent}
+#lbn .rfull{margin:8px 0 0;font-size:11px;line-height:1.5;color:#d9c48a;word-break:break-all;letter-spacing:.02em}
+#lbn .rtot{position:relative;margin:2px 0 12px;font-size:13px;color:#3b1d00}#lbn .rtot b{font-size:15px;color:#7d1a0f}
 </style>
 </head>
 <body>
@@ -1801,10 +1805,23 @@ function today(){var d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-
 var QUIPS=["指先の達人かよ…！","高みを目指せ！","その調子、もっと触れ！","次は記録更新だ！","今日のあなた、最高にキマってる！","今の指、ちょっと光ってた","君の人差し指、免許皆伝です","水面が君を覚えた","今日のりばたん運、使い切ったかも","宇宙が一瞬ざわついた","その指、保険かけたほうがいい","前世は光の速さでタップしてた","ポイントが君を追いかけてる","魚たちが拍手してる","指紋が金色になる日も近い","この感覚、忘れるな！","今夜はいい夢が見れそう","りばたんが一瞬こっち見た"];
 var KU=["","万","億","兆","京","垓","秭","穣","溝","澗","正","載","極","恒河沙","阿僧祇","那由多"];
 function kanji(b){var s=b.toString(),g=[],r="";if(s==="0")return "0";for(var e=s.length;e>0;e-=4)g.unshift(s.slice(Math.max(0,e-4),e));for(var i=0;i<g.length;i++){var n=g[i].replace(/^0+/,""),u=g.length-1-i;if(n)r+=n+(KU[u]||"")}return r}
+var LK="liblp";
+function getTot(){try{var v=localStorage.getItem(LK);if(v&&/^\d+$/.test(v))return BigInt(v)}catch(e){}return BigInt(0)}
+function setTot(b){try{localStorage.setItem(LK,b.toString())}catch(e){}}
+function fitNb(nb,t){nb.textContent=t;nb.style.fontSize=Math.max(22,Math.min(54,Math.floor(270/(t.length*.98))))+"px"}
+function showTotal(){if(document.getElementById("lbn"))return;var T=getTot(),o=document.createElement("div");o.id="lbn";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");o.setAttribute("aria-label","現在の総得点");
+ o.innerHTML='<div class="lc"><i class="sp" style="left:12px;top:10px"></i><i class="sp" style="right:14px;top:18px;animation-delay:.5s"></i><i class="sp" style="left:22px;bottom:16px;animation-delay:1s"></i><p class="rq1">🏆 現在の総得点</p><div class="rbox"><span class="rk">総得点</span><p class="lpn"><b>0</b><span>点</span></p><p class="rfull"></p></div><p class="lm rqt"></p><button type="button" class="lx">とじる</button></div>';
+ document.body.appendChild(o);var lc=o.querySelector(".lc"),nb=o.querySelector(".lpn b");lc.classList.add("ok");
+ if(T>BigInt(0)){fitNb(nb,kanji(T));o.querySelector(".rfull").textContent=T.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",")+" 点";o.querySelector(".rqt").textContent="りばゲッチュウ 〜余白の嗜み〜"}
+ else{fitNb(nb,"0");o.querySelector(".rqt").textContent="まだ得点がありません。最初のページでキャラをタップ！"}
+ function close(){o.classList.remove("on");setTimeout(function(){o.remove()},400)}
+ o.addEventListener("click",function(e){if(e.target.closest(".lx")||e.target===o)close()});
+ requestAnimationFrame(function(){requestAnimationFrame(function(){o.classList.add("on")})})}
+var ptb=document.createElement("button");ptb.id="ptb";ptb.type="button";ptb.textContent="🏆 現在の総得点";ptb.addEventListener("click",showTotal);document.body.appendChild(ptb);
 function hasPts(){return typeof window.__lpPts==="bigint"&&window.__lpPts>BigInt(0)}
-function ptsReport(){if(!hasPts())return;var P=window.__lpPts;window.__lpPts=BigInt(0);
+function ptsReport(){if(!hasPts())return;var P=window.__lpPts;window.__lpPts=BigInt(0);var TOT=getTot()+P;setTot(TOT);
  var q=QUIPS[Math.floor(Math.random()*QUIPS.length)],o=document.createElement("div");o.id="lbn";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");o.setAttribute("aria-label","今回のポイント");
- o.innerHTML='<div class="lc"><i class="sp" style="left:12px;top:10px"></i><i class="sp" style="right:14px;top:18px;animation-delay:.5s"></i><i class="sp" style="left:22px;bottom:16px;animation-delay:1s"></i><i class="sp" style="right:10px;bottom:44px;animation-delay:.25s"></i><p class="rq1">君はチャレンジした？！</p><p class="rq2">りばゲッチュウ 〜余白の嗜み〜</p><div class="rbox"><span class="rk">得点</span><p class="lpn"><b>0</b><span>点</span></p></div><p class="lm rqt">'+q+'</p><button type="button" class="lx">とじる</button></div>';
+ o.innerHTML='<div class="lc"><i class="sp" style="left:12px;top:10px"></i><i class="sp" style="right:14px;top:18px;animation-delay:.5s"></i><i class="sp" style="left:22px;bottom:16px;animation-delay:1s"></i><i class="sp" style="right:10px;bottom:44px;animation-delay:.25s"></i><p class="rq1">君はチャレンジした？！</p><p class="rq2">りばゲッチュウ 〜余白の嗜み〜</p><div class="rbox"><span class="rk">得点</span><p class="lpn"><b>0</b><span>点</span></p></div><p class="lm rqt">'+q+'</p><p class="rtot">これまでの総得点 <b>'+kanji(TOT)+'</b> 点</p><button type="button" class="lx">とじる</button></div>';
  document.body.appendChild(o);var lc=o.querySelector(".lc"),nb=o.querySelector(".lpn b");
  function close(){o.classList.remove("on");setTimeout(function(){o.remove()},400)}
  o.addEventListener("click",function(e){if(e.target.closest(".lx"))close()});
@@ -1837,7 +1854,7 @@ function run(){
   var done=false;function fin(){if(done)return;done=true;f.remove();land()}an.onfinish=fin;setTimeout(fin,1700)}
  requestAnimationFrame(function(){requestAnimationFrame(function(){o.classList.add("on");setTimeout(fly,700)})});
 }
-new MutationObserver(function(){if(!w.hidden&&!shown){shown=true;setTimeout(run,1800)}if(w.hidden)shown=false}).observe(w,{attributes:true,attributeFilter:["hidden"]});
+new MutationObserver(function(){ptb.style.display=w.hidden?"none":"block";if(!w.hidden&&!shown){shown=true;setTimeout(run,1800)}if(w.hidden)shown=false}).observe(w,{attributes:true,attributeFilter:["hidden"]});
 })();
 </script>
 <script>

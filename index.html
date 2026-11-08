@@ -864,6 +864,9 @@ background:radial-gradient(ellipse 55% 45% at 30% 22%,rgba(255,255,255,.5),rgba(
 /* スタート画面: 長押しで選択・コピーが出ないように / 長押しの演出を邪魔させない */
 #start,#start *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
 #start{touch-action:none}
+
+#lbn .lpn{position:relative;margin:0 0 2px;font-size:20px;font-weight:700;color:#7d1a0f}#lbn .lpn b{font-size:clamp(40px,13vw,54px);letter-spacing:.02em;font-variant-numeric:tabular-nums;text-shadow:0 1px 0 rgba(255,246,200,.95),0 3px 6px rgba(90,40,0,.35)}
+#lbn .lc:not(:has(.ls)) .lm{font-size:19px}
 </style>
 </head>
 <body>
@@ -1246,7 +1249,7 @@ try{if(navigator.vibrate)navigator.vibrate([25,20,45])}catch(e){}
 fOff();HID=null;c.h=false;c.rl=0;
 if(!window.__libWant||window.__libWant())lpBlow();
 var an=Math.random()*6.2832;
-if(c.k===2)PT.push({t0:now,x:cx,y:cy,ch:ch});
+if(c.k===2){PT.push({t0:now,x:cx,y:cy,ch:ch});window.__lpPts=(window.__lpPts||0)+10000}
 c.fly={t0:now,x:cx,y:cy,dx:Math.cos(an),dy:Math.sin(an),sg:Math.random()<.5?-1:1,ws:13+Math.random()*10,s0:c.s,cw:c._w,ch:c._h};
 c._w=null;
 }
@@ -1780,6 +1783,18 @@ var nb=ac.createBuffer(1,Math.floor(ac.sampleRate*.07),ac.sampleRate),d=nb.getCh
 [[1318.5,.20,1.3],[1976,.14,1.0],[3322,.08,.8]].forEach(function(p){var b=ac.createOscillator(),bg=ac.createGain();b.type="sine";b.frequency.value=p[0];bg.gain.setValueAtTime(0,t+.012);bg.gain.linearRampToValueAtTime(p[1],t+.025);bg.gain.exponentialRampToValueAtTime(.001,t+.02+p[2]);b.connect(bg);bg.connect(m);b.start(t);b.stop(t+p[2]+.1)});
 [[3136,.07],[3951,.115],[4699,.16],[6272,.21]].forEach(function(p){var b=ac.createOscillator(),bg=ac.createGain();b.type="sine";b.frequency.value=p[0];bg.gain.setValueAtTime(0,t+p[1]);bg.gain.linearRampToValueAtTime(.07,t+p[1]+.01);bg.gain.exponentialRampToValueAtTime(.001,t+p[1]+.3);b.connect(bg);bg.connect(m);b.start(t+p[1]);b.stop(t+p[1]+.35)})}catch(e){}}
 function today(){var d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()}
+var QUIPS=["高みを目指せ！","その調子、もっと触れ！","まだまだ伸びしろしかない！","レアキャラ使いの才能アリ！","次は記録更新だ！","ワクワクは自分で稼ぐものだ！","指先の達人かよ…！","この感覚、忘れるな！","ポイントの向こうに景色がある！","今日のあなた、最高にキマってる！"];
+function ptsReport(){var P=window.__lpPts|0;if(P<=0)return;window.__lpPts=0;
+ var q=QUIPS[Math.floor(Math.random()*QUIPS.length)],o=document.createElement("div");o.id="lbn";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");o.setAttribute("aria-label","今回のポイント");
+ o.innerHTML='<div class="lc"><i class="sp" style="left:12px;top:10px"></i><i class="sp" style="right:14px;top:18px;animation-delay:.5s"></i><i class="sp" style="left:22px;bottom:16px;animation-delay:1s"></i><i class="sp" style="right:10px;bottom:44px;animation-delay:.25s"></i><p class="lt">✨レアキャラ報告✨</p><p class="lh">今回のポイント</p><p class="lpn"><b>0</b>点！</p><p class="lm">'+q+'</p><button type="button" class="lx">とじる</button></div>';
+ document.body.appendChild(o);var lc=o.querySelector(".lc"),nb=o.querySelector(".lpn b");
+ function close(){o.classList.remove("on");setTimeout(function(){o.remove()},400)}
+ o.addEventListener("click",function(e){if(e.target.closest(".lx"))close()});
+ function fin(){nb.textContent=P.toLocaleString("en-US");lc.classList.add("ok");lc.classList.remove("sk");void lc.offsetWidth;lc.classList.add("sk");thud();setTimeout(function(){window.__cheer&&window.__cheer()},120)}
+ requestAnimationFrame(function(){requestAnimationFrame(function(){o.classList.add("on");
+  var calm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;if(calm){fin();return}
+  var t0=null,D=1300;function tick(ts){if(!o.parentNode)return;if(t0===null)t0=ts;var e=Math.min(1,(ts-t0)/D),v=Math.round(P*(1-Math.pow(1-e,3))/10)*10;nb.textContent=v.toLocaleString("en-US");if(e<1)requestAnimationFrame(tick);else fin()}
+  setTimeout(function(){requestAnimationFrame(tick)},450)})})}
 function run(){
  var st={n:0,d:""};try{var j=JSON.parse(localStorage.getItem("libstamp")||"null");if(j&&typeof j.n==="number")st=j}catch(e){}
  var td=today(),fresh=st.d!==td;
@@ -1792,7 +1807,7 @@ function run(){
  h+='</div><p class="lm">'+(n>=5&&fresh?"5日目 コンプリート！":(fresh?n+"日目ゲット！":"本日のスタンプをGET！"))+'</p><button type="button" class="lx">とじる</button><p class="ln">※5個貯まっても何も起きない可能性が高いです…(`L_` )ｸｸｸ</p></div>';
  o.innerHTML=h;document.body.appendChild(o);
  var slot=o.querySelectorAll(".ls")[n-1],lc=o.querySelector(".lc"),ang=(((n*37)%17)-8);
- function close(){clearTimeout(tmr);o.classList.remove("on");setTimeout(function(){o.remove()},400)}
+ function close(){clearTimeout(tmr);o.classList.remove("on");setTimeout(function(){o.remove();if((window.__lpPts|0)>0)setTimeout(ptsReport,250)},400)}
  o.addEventListener("click",function(e){if(e.target.closest(".lx"))close()});
  function land(){slot.classList.add("d","nw");slot.innerHTML='<img alt="" src="'+src+'" decoding="async">';lc.classList.add("ok");lc.classList.remove("sk");void lc.offsetWidth;lc.classList.add("sk");if(o.parentNode){thud();setTimeout(function(){window.__cheer&&window.__cheer()},180);if(n>=5&&fresh)setTimeout(function(){window.__goldSwarm&&window.__goldSwarm()},1100)}try{if(navigator.vibrate)navigator.vibrate([30,30,20])}catch(e){}}
  function fly(){var calm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;if(calm||!o.parentNode||!o.animate){land();return}

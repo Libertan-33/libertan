@@ -2132,21 +2132,24 @@ var el=document.createElement("p");el.id="vcnt";el.hidden=true;el.setAttribute("
 function val(j){var n=j&&(j.count!=null?j.count:j.value);return(n==null||isNaN(+n))?null:+n}
 function get(u){return fetch(u,{cache:"no-store"}).then(function(r){return r.ok?r.json():Promise.reject()}).then(function(j){var n=val(j);return n==null?Promise.reject():n})}
 function show(n){el.textContent="👣 "+Number(n).toLocaleString();el.hidden=false}
+function fail(){el.textContent="👣 －";el.hidden=false}
+el.textContent="👣 …";el.hidden=false;
 try{if(new RegExp("[?&]owner="+PW+"(&|$)").test(QS))localStorage.setItem("wts_owner","1")}catch(e){}
 var owner=false;try{owner=localStorage.getItem("wts_owner")==="1"}catch(e){}
 var rep=new RegExp("[?&]report="+PW+"(&|$)").test(QS);
 if(rep){report();return}
-if(owner){el.style.pointerEvents="auto";el.style.cursor="pointer";el.style.padding="6px 8px";el.addEventListener("click",function(){if(!document.getElementById("vcrep"))report()});get(A+"get/"+NS+"/visitors").then(show).catch(function(){});return}
+if(owner){el.style.pointerEvents="auto";el.style.cursor="pointer";el.style.padding="6px 8px";el.addEventListener("click",function(){if(!document.getElementById("vcrep"))report()});get(A+"get/"+NS+"/visitors").then(show).catch(fail);return}
 var K="lib_visited",seen=false;try{seen=!!localStorage.getItem(K)}catch(e){}
 var p=seen?get(A+"get/"+NS+"/visitors").catch(function(){return get(A+"hit/"+NS+"/visitors")}):get(A+"hit/"+NS+"/visitors");
-p.then(function(n){show(n);if(!seen){try{localStorage.setItem(K,"1")}catch(e){}}}).catch(function(){});
+p.then(function(n){show(n);if(!seen){try{localStorage.setItem(K,"1")}catch(e){}}}).catch(fail);
 try{var dt=new Date(),dk="d"+dt.getFullYear()+("0"+(dt.getMonth()+1)).slice(-2)+("0"+dt.getDate()).slice(-2),last="";try{last=localStorage.getItem("lib_day")||""}catch(e){}
 if(last!==dk)fetch(A+"hit/"+NS+"/"+dk,{cache:"no-store"}).then(function(r){if(r.ok){try{localStorage.setItem("lib_day",dk)}catch(e){}}}).catch(function(){})}catch(e){}
 function report(){var days=[],W=["日","月","火","水","木","金","土"],i;
 for(i=0;i<14;i++){var d=new Date(Date.now()-i*864e5);days.push({k:"d"+d.getFullYear()+("0"+(d.getMonth()+1)).slice(-2)+("0"+d.getDate()).slice(-2),l:(d.getMonth()+1)+"/"+d.getDate()+"（"+W[d.getDay()]+"）",n:0})}
 var ov=document.createElement("div");ov.id="vcrep";ov.style.cssText="position:fixed;inset:0;z-index:2147483000;background:#fbf6ee;color:#3b2f2a;overflow:auto;padding:18px 16px;font-family:sans-serif";ov.innerHTML='<p style="text-align:center">集計中…</p>';document.body.appendChild(ov);
-function g(u){return fetch(u,{cache:"no-store"}).then(function(r){return r.ok?r.json():{value:0}}).then(function(j){return+(j.value!=null?j.value:j.count)||0}).catch(function(){return 0})}
+var bad=0;function g(u){return fetch(u,{cache:"no-store"}).then(function(r){return r.ok?r.json():{value:0}}).then(function(j){return+(j.value!=null?j.value:j.count)||0}).catch(function(){bad++;return 0})}
 var tot=0;Promise.all(days.map(function(x){return g(A+"get/"+NS+"/"+x.k).then(function(n){x.n=n})}).concat([g(A+"get/"+NS+"/visitors").then(function(n){tot=n})])).then(function(){
+if(bad>=15){ov.innerHTML='<p style="text-align:center;margin-top:40px;font-size:15px">カウンターに接続できませんでした。<br>通信環境を変えて、もう一度お試しください。</p><p style="text-align:center;margin-top:18px"><button type="button" id="vcb" style="padding:10px 22px;border:0;border-radius:99px;background:#7c3be2;color:#fff;font-weight:700">サイトにもどる</button></p>';document.getElementById("vcb").onclick=function(){if(rep)location.href=location.pathname;else ov.remove()};return}
 var w1=0,w0=0,mx=1;days.forEach(function(x,j){if(j<7)w1+=x.n;else w0+=x.n;if(x.n>mx)mx=x.n});var df=w1-w0;
 var h='<h2 style="text-align:center;margin:0 0 4px">📊 週間レポート</h2><p style="text-align:center;font-size:12px;color:#8a7c70;margin:0 0 14px">1日1端末ごとに1回数えた訪問数です</p><div style="background:#fff;border-radius:14px;padding:14px;text-align:center;margin-bottom:12px"><div style="font-size:13px">直近7日の合計</div><div style="font-size:40px;font-weight:900;color:#c2410c">'+w1+'</div><div style="font-size:13px">前の週 '+w0+'　'+(df>=0?"＋":"−")+Math.abs(df)+'</div></div><div style="background:#fff;border-radius:14px;padding:12px">';
 days.slice(0,7).forEach(function(x){h+='<div style="display:grid;grid-template-columns:5.4em 1fr 2.6em;gap:8px;align-items:center;margin:6px 0;font-size:13px"><span>'+x.l+'</span><span style="height:10px;border-radius:5px;background:#eee;overflow:hidden"><i style="display:block;height:100%;width:'+Math.round(x.n/mx*100)+'%;background:#f59e0b"></i></span><b style="text-align:right">'+x.n+'</b></div>'});

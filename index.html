@@ -2130,7 +2130,7 @@ try{
 var QS=location.search+"&"+location.hash.replace("#","&"),A="https://abacus.jasoncameron.dev/",NS="libertan-top",PW="ribatan-w7k2";
 var el=document.createElement("p");el.id="vcnt";el.hidden=true;el.setAttribute("aria-hidden","true");el.style.cssText="position:fixed;top:calc(env(safe-area-inset-top,0px) + 6px);left:8px;z-index:99990;pointer-events:none;font-size:10px;line-height:1.4;color:#9b8f86;opacity:.75;margin:0;letter-spacing:.04em;text-shadow:0 0 3px rgba(255,255,255,.6)";document.body.appendChild(el);
 function val(j){var n=j&&(j.count!=null?j.count:j.value);return(n==null||isNaN(+n))?null:+n}
-function get(u){return fetch(u,{cache:"no-store"}).then(function(r){return r.ok?r.json():Promise.reject()}).then(function(j){var n=val(j);return n==null?Promise.reject():n})}
+function get(u){return fetch(u,{cache:"no-store"}).then(function(r){return r.ok?r.json():(r.status===404?{value:0}:Promise.reject())}).then(function(j){var n=val(j);return n==null?Promise.reject():n})}
 function show(n){el.textContent="👣 "+Number(n).toLocaleString();el.hidden=false}
 function fail(){el.textContent="👣 －";el.hidden=false}
 el.textContent="👣 …";el.hidden=false;

@@ -877,6 +877,12 @@ background:radial-gradient(ellipse 55% 45% at 30% 22%,rgba(255,255,255,.5),rgba(
 #ptb{position:fixed;left:12px;bottom:64px;z-index:90;display:none;padding:8px 14px;border-radius:999px;border:1px solid #d9ac3c;background:rgba(24,16,4,.82);color:#f6dc82;font:700 13px/1 "Shippori Mincho","Noto Serif JP",serif;letter-spacing:.06em;box-shadow:0 4px 14px rgba(0,0,0,.35);cursor:pointer;-webkit-tap-highlight-color:transparent}
 #lbn .rfull{margin:8px 0 0;font-size:11px;line-height:1.5;color:#d9c48a;word-break:break-all;letter-spacing:.02em}
 #lbn .rtot{position:relative;margin:2px 0 12px;font-size:13px;color:#3b1d00}#lbn .rtot b{font-size:15px;color:#7d1a0f}
+
+/* 改行: 日本語は文節で折り返す / 見出し・短文は行の長さを揃える */
+html{word-break:auto-phrase;line-break:strict}
+h1,h2,h3,h4,.lm,.rq1,.rq2,.rqt,.rk,figcaption,.fold-btn,.btn{text-wrap:balance}
+p,li,dd{text-wrap:pretty}
+.nw{display:inline-block;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -1823,7 +1829,7 @@ function fitNb(nb,t){nb.textContent=t;nb.style.fontSize=Math.max(22,Math.min(54,
 function showTotal(){if(document.getElementById("lbn"))return;var T=getTot(),o=document.createElement("div");o.id="lbn";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");o.setAttribute("aria-label","現在の総得点");
  o.innerHTML='<div class="lc"><i class="sp" style="left:12px;top:10px"></i><i class="sp" style="right:14px;top:18px;animation-delay:.5s"></i><i class="sp" style="left:22px;bottom:16px;animation-delay:1s"></i><p class="rq1">🏆 現在の総得点</p><div class="rbox"><span class="rk">総得点</span><p class="lpn"><b>0</b><span>点</span></p><p class="rfull"></p></div><p class="lm rqt"></p><button type="button" class="lx">とじる</button></div>';
  document.body.appendChild(o);var lc=o.querySelector(".lc"),nb=o.querySelector(".lpn b");lc.classList.add("ok");
- if(T>BigInt(0)){fitNb(nb,kanji(T));o.querySelector(".rfull").textContent=T.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",")+" 点";o.querySelector(".rqt").textContent="りばゲッチュウ 〜余白の嗜み〜"}
+ if(T>BigInt(0)){fitNb(nb,kanji(T));o.querySelector(".rfull").textContent=T.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",")+" 点";o.querySelector(".rqt").innerHTML='<span class="nw">りばゲッチュウ</span> <span class="nw">〜余白の嗜み〜</span>'}
  else{fitNb(nb,"0");o.querySelector(".rqt").textContent="まだ得点がありません。最初のページでキャラをタップ！"}
  function close(){o.classList.remove("on");setTimeout(function(){o.remove()},400)}
  o.addEventListener("click",function(e){if(e.target.closest(".lx")||e.target===o)close()});
@@ -1832,7 +1838,7 @@ var ptb=document.createElement("button");ptb.id="ptb";ptb.type="button";ptb.text
 function hasPts(){return typeof window.__lpPts==="bigint"&&window.__lpPts>BigInt(0)}
 function ptsReport(){if(!hasPts())return;var P=window.__lpPts;window.__lpPts=BigInt(0);var TOT=getTot()+P;setTot(TOT);
  var q=QUIPS[Math.floor(Math.random()*QUIPS.length)],o=document.createElement("div");o.id="lbn";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");o.setAttribute("aria-label","今回のポイント");
- o.innerHTML='<div class="lc"><i class="sp" style="left:12px;top:10px"></i><i class="sp" style="right:14px;top:18px;animation-delay:.5s"></i><i class="sp" style="left:22px;bottom:16px;animation-delay:1s"></i><i class="sp" style="right:10px;bottom:44px;animation-delay:.25s"></i><p class="rq1">君はチャレンジした？！</p><p class="rq2">りばゲッチュウ 〜余白の嗜み〜</p><div class="rbox"><span class="rk">得点</span><p class="lpn"><b>0</b><span>点</span></p></div><p class="lm rqt">'+q+'</p><p class="rtot">これまでの総得点 <b>'+kanji(TOT)+'</b> 点</p><button type="button" class="lx">とじる</button></div>';
+ o.innerHTML='<div class="lc"><i class="sp" style="left:12px;top:10px"></i><i class="sp" style="right:14px;top:18px;animation-delay:.5s"></i><i class="sp" style="left:22px;bottom:16px;animation-delay:1s"></i><i class="sp" style="right:10px;bottom:44px;animation-delay:.25s"></i><p class="rq1">君はチャレンジした？！</p><p class="rq2"><span class="nw">りばゲッチュウ</span> <span class="nw">〜余白の嗜み〜</span></p><div class="rbox"><span class="rk">得点</span><p class="lpn"><b>0</b><span>点</span></p></div><p class="lm rqt">'+q+'</p><p class="rtot">これまでの総得点 <b>'+kanji(TOT)+'</b> 点</p><button type="button" class="lx">とじる</button></div>';
  document.body.appendChild(o);var lc=o.querySelector(".lc"),nb=o.querySelector(".lpn b");
  function close(){o.classList.remove("on");setTimeout(function(){o.remove()},400)}
  o.addEventListener("click",function(e){if(e.target.closest(".lx"))close()});

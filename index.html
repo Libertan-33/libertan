@@ -2285,12 +2285,21 @@ function snaps(){var K=keys(new Date()),S={},T=myTot().toString(),ch=false;try{S
 if(ch){try{localStorage.setItem(SKEY,JSON.stringify(S))}catch(e){}}return S}
 function myScore(per){var T=myTot();if(per==="t")return T;var S=snaps(),v=BigInt(S[per].v);return T>v?T-v:0n}
 snaps(); /* 読み込み時に期間の基準点を記録(得点が増える前に) */
-/* GPS → 国 */
-function gps(cb){if(!navigator.geolocation){cb(null,"この端末では位置情報が使えません");return}
+/* GPS → 国(取れないときは段階的に代替) */
+var TZC={"Asia/Tokyo":"JP","Asia/Seoul":"KR","Asia/Shanghai":"CN","Asia/Chongqing":"CN","Asia/Urumqi":"CN","Asia/Taipei":"TW","Asia/Hong_Kong":"HK","Asia/Macau":"MO","Asia/Singapore":"SG","Asia/Bangkok":"TH","Asia/Ho_Chi_Minh":"VN","Asia/Saigon":"VN","Asia/Jakarta":"ID","Asia/Manila":"PH","Asia/Kuala_Lumpur":"MY","Asia/Kolkata":"IN","Asia/Calcutta":"IN","Asia/Dhaka":"BD","Asia/Karachi":"PK","Asia/Dubai":"AE","Asia/Riyadh":"SA","Asia/Tehran":"IR","Asia/Jerusalem":"IL","Asia/Istanbul":"TR","Europe/Istanbul":"TR","Europe/London":"GB","Europe/Dublin":"IE","Europe/Paris":"FR","Europe/Berlin":"DE","Europe/Madrid":"ES","Europe/Lisbon":"PT","Europe/Rome":"IT","Europe/Amsterdam":"NL","Europe/Brussels":"BE","Europe/Zurich":"CH","Europe/Vienna":"AT","Europe/Stockholm":"SE","Europe/Oslo":"NO","Europe/Copenhagen":"DK","Europe/Helsinki":"FI","Europe/Warsaw":"PL","Europe/Prague":"CZ","Europe/Athens":"GR","Europe/Moscow":"RU","Europe/Kiev":"UA","Europe/Kyiv":"UA","Atlantic/Reykjavik":"IS","Africa/Cairo":"EG","Africa/Johannesburg":"ZA","Africa/Nairobi":"KE","Africa/Lagos":"NG","America/New_York":"US","America/Chicago":"US","America/Denver":"US","America/Phoenix":"US","America/Los_Angeles":"US","America/Anchorage":"US","Pacific/Honolulu":"US","America/Toronto":"CA","America/Vancouver":"CA","America/Mexico_City":"MX","America/Bogota":"CO","America/Lima":"PE","America/Santiago":"CL","America/Argentina/Buenos_Aires":"AR","America/Buenos_Aires":"AR","America/Sao_Paulo":"BR","Australia/Sydney":"AU","Australia/Melbourne":"AU","Australia/Brisbane":"AU","Australia/Perth":"AU","Pacific/Auckland":"NZ"};
+function tzCountry(){try{return TZC[Intl.DateTimeFormat().resolvedOptions().timeZone]||""}catch(e){return""}}
+function setCC(c,est){try{localStorage.setItem(CKEY,c);if(est)localStorage.setItem("lib_cce","1");else localStorage.removeItem("lib_cce")}catch(e){}}
+function isEst(){try{return localStorage.getItem("lib_cce")==="1"}catch(e){return false}}
+function geo1(la,lo,cb){
+fetch("https://api.bigdatacloud.net/data/reverse-geocode-client?latitude="+la+"&longitude="+lo+"&localityLanguage=en",{cache:"no-store"}).then(function(r){return r.ok?r.json():Promise.reject()}).then(function(j){var c=j&&j.countryCode;if(c&&/^[A-Za-z]{2}$/.test(c))cb(c.toUpperCase());else throw 0}).catch(function(){
+fetch("https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=3&lat="+la+"&lon="+lo,{cache:"no-store"}).then(function(r){return r.ok?r.json():Promise.reject()}).then(function(j){var c=j&&j.address&&j.address.country_code;cb(c&&/^[A-Za-z]{2}$/.test(c)?c.toUpperCase():"")}).catch(function(){cb("")})})}
+function gps(cb){
+function fb(why){var c=tzCountry();if(c){setCC(c,true);cb(c,why+" 端末の時刻設定から「"+c+"」と推定しました。",true)}else cb(null,why)}
+if(!navigator.geolocation){fb("この端末・ブラウザでは位置情報が使えません。");return}
 navigator.geolocation.getCurrentPosition(function(p){
-var la=p.coords.latitude.toFixed(1),lo=p.coords.longitude.toFixed(1);
-fetch("https://api.bigdatacloud.net/data/reverse-geocode-client?latitude="+la+"&longitude="+lo+"&localityLanguage=en",{cache:"no-store"}).then(function(r){return r.ok?r.json():Promise.reject()}).then(function(j){var c=j&&j.countryCode;if(c&&/^[A-Za-z]{2}$/.test(c)){c=c.toUpperCase();try{localStorage.setItem(CKEY,c)}catch(e){}cb(c)}else cb(null,"国を判定できませんでした")}).catch(function(){cb(null,"国を判定できませんでした(通信エラー)")})
-},function(e){cb(null,e&&e.code===1?"位置情報が許可されなかったので、顔の旗のままです":"位置情報を取得できませんでした")},{timeout:12000,maximumAge:3600000})}
+geo1(p.coords.latitude.toFixed(1),p.coords.longitude.toFixed(1),function(c){if(c){setCC(c,false);cb(c)}else fb("位置情報は取れましたが、国の判定に失敗しました。")})
+},function(e){var k=e&&e.code;if(k===1)cb(null,"位置情報が許可されなかったので、顔の旗のままです。許可するには、ブラウザのアドレスバー左の設定で「位置情報」を許可してください。");
+else fb(k===3?"位置情報の取得がタイムアウトしました。":"この端末では位置情報を取得できませんでした(端末の位置情報サービスがオフか、アプリ内ブラウザかもしれません)。")},{timeout:15000,maximumAge:3600000})}
 var LABEL={d:"デイリー",w:"ウイークリー",m:"マンスリー",t:"総合"},NOTE={d:"毎日0時にリセット",w:"毎週月曜0時にリセット",m:"毎月1日0時にリセット",t:"これまでの総得点"};
 function open_(){
 if(document.getElementById("rkv"))return;
@@ -2314,9 +2323,9 @@ o.querySelector("b").textContent=LABEL[per]+" "+rank+"位";
 o.querySelector(".ms").textContent=me.s>0n?(total+"人中 ・ "+fmt(me.s)+"点"):(per==="t"?"まだ得点がありません。最初のページでキャラをタップ!":"この期間はまだ得点がありません");
 var nt='※ランキングの相手は全員、架空のキャラクターです<small>'+LABEL[per]+':'+NOTE[per]+'</small>';
 o.querySelector(".nt").innerHTML=nt;
-var g=o.querySelector(".gps");if(myCC()){if(g)g.remove();var gm0=o.querySelector(".gm");if(gm0)gm0.remove()}else if(!g){g=document.createElement("button");g.type="button";g.className="gps";g.textContent="📍 位置情報で国旗をつける";o.querySelector(".me").insertAdjacentElement("afterend",g);var gm=document.createElement("p");gm.className="gm";gm.textContent="位置情報は国の判定だけに使い、保存するのは国コードだけです。使わないと、顔の旗になります。";g.insertAdjacentElement("afterend",gm)}}
+var g=o.querySelector(".gps");if(myCC()&&!isEst()){if(g)g.remove();var gm0=o.querySelector(".gm");if(gm0)gm0.remove()}else if(!g){g=document.createElement("button");g.type="button";g.className="gps";g.textContent=isEst()?"📍 もう一度、位置情報で判定する":"📍 位置情報で国旗をつける";o.querySelector(".me").insertAdjacentElement("afterend",g);var gm=document.createElement("p");gm.className="gm";gm.textContent=isEst()?"いまの国旗は、端末の時刻設定からの推定です。":"位置情報は国の判定だけに使い、保存するのは国コードだけです。使わないと、顔の旗になります。";g.insertAdjacentElement("afterend",gm)}}
 tabs.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("button");if(b&&b.dataset.p){per=b.dataset.p;render()}});
-o.addEventListener("click",function(e){var g=e.target.closest&&e.target.closest(".gps");if(g){g.disabled=true;g.textContent="位置情報を確認中…";gps(function(c,msg){if(c){render()}else{g.disabled=false;g.textContent="📍 位置情報で国旗をつける";var gm=o.querySelector(".gm");if(gm&&msg)gm.textContent=msg}})}});
+o.addEventListener("click",function(e){var g=e.target.closest&&e.target.closest(".gps");if(g){g.disabled=true;g.textContent="位置情報を確認中…";gps(function(c,msg,est){if(c){render();g.disabled=false;g.textContent="📍 もう一度、位置情報で判定する";if(est){var g2=o.querySelector(".gm");if(g2&&msg)g2.textContent=msg}}else{g.disabled=false;g.textContent="📍 位置情報で国旗をつける";var gm=o.querySelector(".gm");if(gm&&msg)gm.textContent=msg}})}});
 o.querySelector(".mo").addEventListener("click",function(){full=!full;render()});
 function close(){document.removeEventListener("keydown",key);o.classList.remove("on");setTimeout(function(){o.remove()},300)}
 function key(e){if(e.key==="Escape")close()}

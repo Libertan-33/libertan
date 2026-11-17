@@ -1862,7 +1862,7 @@ function getTot(){try{var v=localStorage.getItem(LK);if(v&&/^\d+$/.test(v))retur
 function setTot(b){try{localStorage.setItem(LK,b.toString())}catch(e){}}
 function fitNb(nb,t){nb.textContent=t;nb.style.fontSize=Math.max(22,Math.min(54,Math.floor(270/(t.length*.98))))+"px"}
 function showTotal(){if(document.getElementById("lbn"))return;var T=getTot(),o=document.createElement("div");o.id="lbn";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");o.setAttribute("aria-label","現在の総得点");
- o.innerHTML='<div class="lc"><i class="sp" style="left:12px;top:10px"></i><i class="sp" style="right:14px;top:18px;animation-delay:.5s"></i><i class="sp" style="left:22px;bottom:16px;animation-delay:1s"></i><p class="rq1">🏆 現在の総得点</p><div class="rbox"><span class="rk">総得点</span><p class="lpn"><b>0</b><span>点</span></p><p class="rfull"></p></div><p class="lm rqt"></p><button type="button" class="lx">とじる</button></div>';
+ o.innerHTML='<div class="lc"><i class="sp" style="left:12px;top:10px"></i><i class="sp" style="right:14px;top:18px;animation-delay:.5s"></i><i class="sp" style="left:22px;bottom:16px;animation-delay:1s"></i><p class="rq1">🏆 現在の総得点</p><div class="rbox"><span class="rk">総得点</span><p class="lpn"><b>0</b><span>点</span></p><p class="rfull"></p></div><p class="lm rqt"></p><button type="button" class="lrk">🌍 世界ランキング</button><button type="button" class="lx">とじる</button></div>';
  document.body.appendChild(o);var lc=o.querySelector(".lc"),nb=o.querySelector(".lpn b");lc.classList.add("ok");
  if(T>BigInt(0)){fitNb(nb,kanji(T));o.querySelector(".rfull").textContent=T.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",")+" 点";o.querySelector(".rqt").innerHTML='<span class="nw">りばゲッチュウ</span> <span class="nw">〜余白の嗜み〜</span>'}
  else{fitNb(nb,"0");o.querySelector(".rqt").textContent="まだ得点がありません。最初のページでキャラをタップ！"}
@@ -1873,7 +1873,7 @@ var ptb=document.createElement("button");ptb.id="ptb";ptb.type="button";ptb.text
 function hasPts(){return typeof window.__lpPts==="bigint"&&window.__lpPts>BigInt(0)}
 function ptsReport(){if(!hasPts())return;var P=window.__lpPts;window.__lpPts=BigInt(0);var TOT=getTot()+P;setTot(TOT);
  var q=QUIPS[Math.floor(Math.random()*QUIPS.length)],o=document.createElement("div");o.id="lbn";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");o.setAttribute("aria-label","今回のポイント");
- o.innerHTML='<div class="lc"><i class="sp" style="left:12px;top:10px"></i><i class="sp" style="right:14px;top:18px;animation-delay:.5s"></i><i class="sp" style="left:22px;bottom:16px;animation-delay:1s"></i><i class="sp" style="right:10px;bottom:44px;animation-delay:.25s"></i><p class="rq1">君はチャレンジした？！</p><p class="rq2"><span class="nw">りばゲッチュウ</span> <span class="nw">〜余白の嗜み〜</span></p><div class="rbox"><span class="rk">得点</span><p class="lpn"><b>0</b><span>点</span></p></div><p class="lm rqt">'+q+'</p><p class="rtot">これまでの総得点 <b>'+kanji(TOT)+'</b> 点</p><button type="button" class="lx">とじる</button></div>';
+ o.innerHTML='<div class="lc"><i class="sp" style="left:12px;top:10px"></i><i class="sp" style="right:14px;top:18px;animation-delay:.5s"></i><i class="sp" style="left:22px;bottom:16px;animation-delay:1s"></i><i class="sp" style="right:10px;bottom:44px;animation-delay:.25s"></i><p class="rq1">君はチャレンジした？！</p><p class="rq2"><span class="nw">りばゲッチュウ</span> <span class="nw">〜余白の嗜み〜</span></p><div class="rbox"><span class="rk">得点</span><p class="lpn"><b>0</b><span>点</span></p></div><p class="lm rqt">'+q+'</p><p class="rtot">これまでの総得点 <b>'+kanji(TOT)+'</b> 点</p><button type="button" class="lrk">🌍 世界ランキング</button><button type="button" class="lx">とじる</button></div>';
  document.body.appendChild(o);var lc=o.querySelector(".lc"),nb=o.querySelector(".lpn b");
  function close(){o.classList.remove("on");setTimeout(function(){o.remove()},400)}
  o.addEventListener("click",function(e){if(e.target.closest(".lx"))close()});
@@ -2223,6 +2223,74 @@ if(au&&want()){try{au.currentTime=0;var p=au.play();if(p&&p.catch)p.catch(functi
 }
 im.addEventListener("click",go);
 im.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();go()}});
+})();
+</script>
+<style>
+#lbn .lrk{display:block;margin:12px auto 0;font:inherit;font-size:13px;letter-spacing:.1em;color:#2b1a02;background:linear-gradient(180deg,#fff0a8,#e8b630);border:1px solid #8d5d08;border-radius:999px;padding:8px 20px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+#lbn .lrk+.lx{display:block;margin:8px auto 0}
+#rkv{position:fixed;inset:0;z-index:410;display:flex;align-items:center;justify-content:center;background:rgba(10,8,4,.78);opacity:0;transition:opacity .3s ease}
+#rkv.on{opacity:1}
+#rkv .rc{box-sizing:border-box;width:min(92vw,380px);max-height:88vh;overflow:auto;padding:18px 14px 16px;border-radius:20px;color:#fff3cf;background:linear-gradient(180deg,#2d1d06,#140d02);border:2px solid #f1cf6a;box-shadow:0 10px 40px rgba(0,0,0,.6),inset 0 0 24px rgba(241,201,74,.15)}
+#rkv h2{margin:0;text-align:center;font-size:18px;letter-spacing:.12em;color:#ffe9a0}
+#rkv .me{margin:10px 0 12px;text-align:center;font-size:13px;line-height:1.6}
+#rkv .me b{display:block;font-size:30px;line-height:1.2;color:#ffd84a;text-shadow:0 0 12px rgba(255,200,60,.5)}
+#rkv ol{list-style:none;margin:0;padding:0}
+#rkv li{display:grid;grid-template-columns:30px 26px minmax(0,1fr);align-items:center;column-gap:8px;row-gap:0;padding:6px 6px;text-align:left;border-bottom:1px solid rgba(241,207,106,.18);font-size:14px}
+#rkv li .n{grid-row:1/3;text-align:right;font-weight:800;color:#f1cf6a;font-variant-numeric:tabular-nums}
+#rkv li .f{grid-row:1/3;text-align:center;font-size:18px}
+#rkv li .t{grid-column:3;line-height:1.35;overflow-wrap:anywhere}
+#rkv li .s{grid-column:3;font-size:11.5px;line-height:1.35;opacity:.8;font-variant-numeric:tabular-nums}
+#rkv li.you{background:linear-gradient(90deg,rgba(255,216,74,.28),rgba(255,216,74,.1));border-radius:10px;border-bottom-color:transparent;font-weight:700}
+#rkv li.gap{display:block;text-align:center;padding:0;border:0;color:#f1cf6a;line-height:1}
+#rkv .nt{margin:12px 0 0;font-size:11px;line-height:1.6;text-align:center;opacity:.75}
+#rkv .bt{display:flex;justify-content:center;gap:10px;margin-top:12px}
+#rkv button{font:inherit;font-size:13px;letter-spacing:.12em;color:#ffe9a0;background:linear-gradient(180deg,#4d330a,#241602);border:1px solid #f1cf6a;border-radius:999px;padding:8px 20px;cursor:pointer}
+</style>
+<script>
+(function(){
+var LKEY="liblp",HKEY="lib_hn";
+var BASE=Date.UTC(2026,10,17);
+var NPC=[["FR","マダム・バゲット"],["BR","カーニバル仙人"],["IN","カレー導師ラージ"],["IS","氷河の釣り人"],["US","ハンバーガー将軍"],["CN","パンダ飼育係の鬼"],["KR","キムチ番長"],["IT","パスタ茹ですぎ侯爵"],["DE","ソーセージ博士"],["EG","ピラミッド管理人"],["AU","カンガルー拳闘士"],["CA","メープル樵(きこり)"],["MX","サボテン楽団長"],["TH","屋台の魔術師"],["GB","紅茶で乾杯卿"],["NO","フィヨルド寝坊助"],["ES","シエスタ大臣"],["NL","風車まわし名人"],["RU","ボルシチ極寒隊長"],["TR","ケバブ曲芸師"],["ZA","サバンナ郵便局長"],["NZ","羊の数え係"],["PE","リャマと昼寝同盟"],["GR","オリーブ哲学者"],["SE","家具組み立て迷子"],["AR","タンゴ踊りすぎ男爵"],["VN","フォー早食い王"],["KE","マラソン羊飼い"],["CH","チーズ金庫番"],["JP","コタツ守りの猫仙人"]];
+function flag(c){if(!c||c.length!==2)return"🌏";return String.fromCodePoint(127397+c.charCodeAt(0),127397+c.charCodeAt(1))}
+var UNITS=["","万","億","兆","京","垓","秭","穣","溝","澗","正","載","極"];
+function fmt(b){var s=b.toString();if(s==="0")return"0";var p=[],i=s.length;while(i>0){p.unshift(s.slice(Math.max(0,i-4),i));i-=4}
+var out=[],n=p.length;for(var k=0;k<n;k++){var u=n-1-k;var v=p[k].replace(/^0+/,"");if(!v)continue;if(u>=UNITS.length){return s.replace(/\B(?=(\d{3})+(?!\d))/g,",")}out.push(v+UNITS[u]);if(out.length===2)break}return out.join("")}
+function days(){return Math.max(0,Math.floor((Date.now()-BASE)/864e5))}
+function npcs(){var d=BigInt(days()),r=[],i;for(i=0;i<NPC.length;i++){var k=NPC.length-1-i;var base=5000n*(31n**BigInt(k))/(10n**BigInt(k));var g=BigInt(5+((i*7)%36));r.push({c:NPC[i][0],n:NPC[i][1],s:base*(1000n+g*d)/1000n})}return r}
+var LANGC={ja:"JP",ko:"KR",zh:"CN",en:"US",fr:"FR",de:"DE",es:"ES",pt:"BR",it:"IT",th:"TH",vi:"VN",id:"ID",ru:"RU",tr:"TR",nl:"NL",sv:"SE",el:"GR",no:"NO",nb:"NO"};
+var TZC={"Asia/Tokyo":"JP","Asia/Seoul":"KR","Asia/Shanghai":"CN","Asia/Taipei":"TW","Asia/Hong_Kong":"HK","Asia/Singapore":"SG","Asia/Bangkok":"TH","Asia/Ho_Chi_Minh":"VN","Asia/Jakarta":"ID","Asia/Kolkata":"IN","Europe/London":"GB","Europe/Paris":"FR","Europe/Berlin":"DE","Europe/Madrid":"ES","Europe/Rome":"IT","America/New_York":"US","America/Chicago":"US","America/Los_Angeles":"US","America/Toronto":"CA","America/Mexico_City":"MX","America/Sao_Paulo":"BR","Australia/Sydney":"AU","Pacific/Auckland":"NZ"};
+function myCountry(){try{var L=navigator.languages||[navigator.language],i;for(i=0;i<L.length;i++){var m=/^[a-z]{2,3}-(?:[A-Za-z]{4}-)?([A-Z]{2})$/.exec(L[i]||"");if(m)return m[1]}}catch(e){}
+try{var z=Intl.DateTimeFormat().resolvedOptions().timeZone;if(TZC[z])return TZC[z]}catch(e){}
+try{var l=(navigator.language||"").slice(0,2).toLowerCase();if(LANGC[l])return LANGC[l]}catch(e){}return""}
+function myNo(){var v=null;try{v=localStorage.getItem(HKEY)}catch(e){}if(!v||!/^\d{6}$/.test(v)){v=("00000"+(1+Math.floor(Math.random()*999999))).slice(-6);try{localStorage.setItem(HKEY,v)}catch(e){}}return v}
+function myTot(){try{var v=localStorage.getItem(LKEY);if(v&&/^\d+$/.test(v))return BigInt(v)}catch(e){}return 0n}
+function open_(){
+if(document.getElementById("rkv"))return;
+var T=myTot(),N=npcs(),me={c:myCountry(),n:"変態No."+myNo(),s:T,me:true};
+var all=N.concat([me]);all.sort(function(a,b){return a.s>b.s?-1:a.s<b.s?1:(a.me?1:b.me?-1:0)});
+var rank=all.indexOf(me)+1,total=all.length,full=false;
+var o=document.createElement("div");o.id="rkv";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");o.setAttribute("aria-label","世界ランキング");
+o.innerHTML='<div class="rc"><h2>🌍 世界ランキング</h2><p class="me"><span class="mn"></span><b></b><span class="ms"></span></p><ol></ol><p class="nt">※ランキングの相手は全員、架空のキャラクターです</p><div class="bt"><button type="button" class="mo"></button><button type="button" class="cl">とじる</button></div></div>';
+document.body.appendChild(o);
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function row(i){var x=all[i];return'<li'+(x.me?' class="you"':'')+'><span class="n">'+(i+1)+'</span><span class="f">'+flag(x.c)+'</span><span class="t">'+esc(x.n)+(x.me?'(あなた)':'')+'</span><span class="s">'+fmt(x.s)+'点</span></li>'}
+function render(){var h="",i,show=[];
+if(full){for(i=0;i<total;i++)show.push(i)}
+else{var set={};for(i=0;i<5;i++)set[i]=1;for(i=rank-2;i<=rank;i++)if(i>=0&&i<total)set[i]=1;for(i=0;i<total;i++)if(set[i])show.push(i)}
+var prev=-1;show.forEach(function(i){if(prev>=0&&i-prev>1)h+='<li class="gap" aria-hidden="true">⋮</li>';h+=row(i);prev=i});
+o.querySelector("ol").innerHTML=h;
+var mo=o.querySelector(".mo");mo.textContent=full?"上位だけ見る":"ぜんぶ見る";mo.hidden=false}
+o.querySelector(".mn").textContent=flag(me.c)+" "+me.n;
+o.querySelector("b").textContent="世界 "+rank+"位";
+o.querySelector(".ms").textContent=T>0n?(total+"人中 ・ "+fmt(T)+"点"):("まだ得点がありません。最初のページでキャラをタップ!");
+render();
+o.querySelector(".mo").addEventListener("click",function(){full=!full;render()});
+function close(){document.removeEventListener("keydown",key);o.classList.remove("on");setTimeout(function(){o.remove()},300)}
+function key(e){if(e.key==="Escape")close()}
+document.addEventListener("keydown",key);
+o.addEventListener("click",function(e){if(e.target===o||e.target.closest(".cl"))close()});
+requestAnimationFrame(function(){requestAnimationFrame(function(){o.classList.add("on");var c=o.querySelector(".cl");if(c&&c.focus)c.focus({preventScroll:true})})})}
+document.addEventListener("click",function(e){var b=e.target&&e.target.closest&&e.target.closest(".lrk");if(b){e.stopPropagation();open_()}},true);
 })();
 </script>
 </body>

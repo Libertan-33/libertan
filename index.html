@@ -2242,53 +2242,87 @@ im.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.pre
 #rkv li .s{grid-column:3;font-size:11.5px;line-height:1.35;opacity:.8;font-variant-numeric:tabular-nums}
 #rkv li.you{background:linear-gradient(90deg,rgba(255,216,74,.28),rgba(255,216,74,.1));border-radius:10px;border-bottom-color:transparent;font-weight:700}
 #rkv li.gap{display:block;text-align:center;padding:0;border:0;color:#f1cf6a;line-height:1}
+#rkv .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:0 0 10px}
+#rkv .tabs button{padding:7px 0;font-size:12px;letter-spacing:.02em;border-radius:10px}
+#rkv .tabs button[aria-selected="true"]{color:#2b1a02;background:linear-gradient(180deg,#fff0a8,#e8b630);border-color:#8d5d08;font-weight:700}
+#rkv .ff{display:inline-block;width:26px;height:19px;object-fit:contain;vertical-align:middle;background:#fff;border:1px solid #f1cf6a;border-radius:3px}
+#rkv .me .ff{width:30px;height:22px}
+#rkv .gps{display:block;margin:8px auto 0;font-size:12px;letter-spacing:.04em;padding:6px 14px}
+#rkv .gm{margin:6px 0 0;font-size:11px;line-height:1.5;text-align:center;opacity:.8}
+#rkv .nt small{display:block;margin-top:4px;opacity:.85}
 #rkv .nt{margin:12px 0 0;font-size:11px;line-height:1.6;text-align:center;opacity:.75}
 #rkv .bt{display:flex;justify-content:center;gap:10px;margin-top:12px}
 #rkv button{font:inherit;font-size:13px;letter-spacing:.12em;color:#ffe9a0;background:linear-gradient(180deg,#4d330a,#241602);border:1px solid #f1cf6a;border-radius:999px;padding:8px 20px;cursor:pointer}
 </style>
 <script>
 (function(){
-var LKEY="liblp",HKEY="lib_hn";
-var BASE=Date.UTC(2026,10,17);
+var LKEY="liblp",HKEY="lib_hn",CKEY="lib_cc",SKEY="lib_snap";
+var FACE="data:image/webp;base64,UklGRnoNAABXRUJQVlA4IG4NAABwMACdASpgAFwAPmkqj0WkIqEYfyYcQAaEoAy2A+TfSWeee4P2VE3fbvteh3/C7uznrPSB/vd9V3mX+92A59V8FfEP6j9vuUBER+S/fj8z5s/6fw3+Nv976hH4z/OP8H+XPuLfL9xLq3+C/4XqF+vv0L/Xf3v91+Y/60+wB/Of6v/tPVvvKfMfYA/lH9y/3v3d/S1/S/+n/Tf5j0d/n/+K/7/+p+AX+X/1L/f/nN+//1qewf9ov/n7pv7NNsgCz+HMw2wZRuyumBoHok+DCj/vVjiO5vLXjjxzBxMAMXe6+PQ/J7QUicFPifOyGfcjyVC9x6v9ds8Gaz8Ov6TiMrQWTpA5oAMhAdEriQwmPFni7h2ejl9LWthexDPdzAp4UA7Mn2u6J6O+WPRw50RmXMF9XoH+El0TsDOdd+5HbnEc373fUF+f6uVZalK6TIATcgCV+IyZt5u2V5JIy7WxJfEPcQNHKME8tByhdPs1NxMAT71pR11MJjgD1elD55rrs0ZhB/4+iO/34qspAAAA/v/b4DeTwj0uWQqja8+39w7szIoSlnGn6AvKRf/HR4bawWUrqq1f4AkgZAWkSRNV//8kfIhbl3OYpJzeuLalXklB4SZ/hVdJr3JouupOOLE9yG4w+F6veuzjxBzkJojtUY0acNSfoeojCtzD/dtKDllNrw2Lj6wTbrnsjtWQt/p3K1Mp3LyhoUfHDe8sTtSZfysIMFeTKcGxWkLGSfSxP7/RNwku/UTeljDN4SsOHeAkNAWQaxfZgzw/x+fuLAaOqtGfyHNeD6id07pSg7qRX2pD6I4KxNCZa3K32wVuwEmSU03FkCsi4hnc3ms2mjeLx49SFDPB8MdiMQUtwpIAemgv70VR1QbJlPLQR3A5RFsl0DBYC+WSTZWvjKB1PkcCQns+NDqNZBA7QgBmP5vLXcz8nwwOfVJZu3nMNLw3eOU8LbrnnsmxKxERkd19T4WmYgnoB++UMKjiu49yE/M9XE8z2d+/cJ+RGzXRVMNOTrSzGzIP59U1IYUevGQlj4NN3WfIbT7IJAhelnU/191V1W/3WsxWEHEui4Jg1kn5ETst4h8r7xOZTOwpKpCkgoWS0pOEJ/AirvVrEXo9MD/dnTSReWPT/jKSB4XKeRCEbhU5JYqzgf2oLtTtpKQdQFA+38DqO9e8jVZpPG+m6yo98bfq/C4SwCNxdGz1Yv3k94UgJM14lEchVyOiHGiyMQd8QwawhiEuAds7qpuC1DnjNpiT3h7verN9Gb370FTJmx7keKFXA+YNGiGbuzrRYYPlb9blwylsNAtLnSsuPBSJQq15wsFiAVgYJpCpuNwn5SyaUgbTx5whse0l2ZuC0AvE19+zq0FLCR4JYQ9jt13yyZR34lAJga3tnbkw6QulkcXqyW0A2Pwj/jt92e5r454tPsI0LtFprzPnW5w/4L24qy4RdoGYSgOU7aJz8intIoq0BeFH+BBTT/374spqpiNJPBT5stkIpCnJgEDC875OlXyQeOB2pY1PXFmS9aqqNCCRS3djSJiai0PnHAXDaj/fDOp4h9s/IYOhOKrKbjDkIUIuK5snw8SbdUEKPNPQs8weT5qsZaexIqoVYQrEZHqSTo10Q6GnrwcJMeWK93EUSvIgi4+a4h66ticZMuENL/G1RQaIGhZo6gJbwiuA7HLQZA9/yJpak7Bj7Pbom29gCSwFSEAUqzHI96tQA4mAkBJme3Y/FXpfI8kAXkWgdBa7gqSfew+dWTT2nGnb61o0YWcxtPKCLPRdRRJpGA7F8CrdHKQAmcpjKO0bFb1hLWAxOj6KAdhgAvtGtNX5dMtqIISooQtRqSwtprKQTbab0yRAKj13QLl7ld6/Ckai+o6xMwNveCxbpS5NZ/MpBI78V7zbfKYBGXFsY7UznheJTvSHsLMHonybXPJjK1/AM9qfPUgsxod4VJiFx/EnfG9yAwRuJy1zp8ntW+81/dVZ7WIT4X/A63xGHp5S2FLSGSlz+BlT2n4vK+08PkL1AcDeG8jEfWp3cHC/SvIUEwmU7eE++eobsSpHH0zo6IJHCG7b9VxBOyHe330TwTJB0YrCobljOIM2ysBYcmuboa9xlSjL+HPM+9K/SF5ih9x5YqdEF1ZvfvCXA3lLAlLvnAWoZH9BsuNNVKUSVlOVS+d64jl/9O1/rmLORlKrMBd2uczcU6D1R9Mo3Wh+dyz47K0ds7YfJrigZZjmMh4Z/hGb6czMtuBFSK0/uQF5kVClZvaTQRvgumbMnKpKxU5m2oAZ8ApfVjDxM8ngk/KD2ZhP02ybI3g5idje63vkwg2/h8Br7SQDiQD7g02TSGffnTbbM1R+W1u/n10bXf7v3nWNYvReAPU3V5lpgRcp9jNMJSLOY6s6zVuDJ2PeRKu27sa03GE8yyZGfyFFdVblhRM35rnCmS1F60wSOOsbi5sObgKLdYo+RHE6X7WNIY5WFYWyl8Zlr+bEA3NPsPUWxOKTjhyX3JzvTOAbpINAuJ4n/p9R6MQ1aWVUvZR87aGWkZ+Yvb/RG8v1gs65wMs6pLJsxF9YRWnrLKlsPdchCuDTy0/Hj6j5Pm34ZRy7BEZR35uPyjdr9Ivg392FgpTZrVa5L//mmkpF+S+v64phIGqjmia6dkC+Q9S7WElof5Nn1TqTwmg7ZXSP/rsejCUcWb7eV7Um0IfqIpPvEuJqoUX/yHJ2hyifQIq27L2HrYm+aKNfvjYt0leIc3On8E9bt7f38BGHjK7KYNs1nr3CHhctISiMiHXpes++FYOxH9NihYM0lX5DUREQL0zdxm68A5aXMkaElxsLjdGycW4mFihXVv9gxxEMVKhc6Hj+xns04r+feHhPZ/v7w9BDOYhrPIKKQW1JSFN1UPM1755fh9qf1jDRdFWm5WD1vwGwiJ5pxaz7EqHh730qeyFeskw24hxQk/LpiRl1FxBYU32GVp8obvbpetOV5HlwIT90Hqt7KrtLIrOKqy5BSJHH9SKy4endY6r0+Wkti1uLbg8mOa1ErMUB3CAaXiXJDBz/0zIihgzb1qdKKc+8EG8nJx5NAzcThIPkiOSGPN0bphRPKBN8dZfZCtNN2wv8JsjXeC9BIfDPAcFaOtoiss5Mszs0dc/F5ZUS6r8iWVJKx/izAwaShoEZFZyODj5vnHmVToWqxCiqpsywu99AKnSnMlBlHD30rJ3TcXi8Xz7BgQz73UJCbjx+Xlp+x9TG4wAsh/5RAHMzvcHt7qUcXjGPvoOvWeFf7Ize7jz+KWqx51yfkxSlvJPLod/p2EbPfVvkLvt/MdVEgN+tKHtvytIDvrlFFDA7WlLpZcXVugVkV9BPMZfjnYY3zjKJqeeyPkqbupBezpfFjkuFp3vW0iil5gOYvK+8Ljg5zm+D3+myADVAPU+FTt8qLCS1WeywQVdULLNlHE3muKDZwHDBii8n/TdVZfwsg5epmDZ4B+NiHdaJrmnCUP5MGXHxKjSv9nSYOrpLCvaUuv759qveDaKd2W8Mc7woQg7jh695+UmCHeGlbkPxw6jcDmjqkVe+4oZ8a8/EhFYbsE5WC0C3ouU12h88L0IJciw3Sz+eA+vhDIQl1zi4UblLnnF9g0pv/ss3P9MeH1qt2lYnLurHdnN5jhiJk6FZc8cQDgkLVY2RtgFESTv0T61EgMcqVY+IlQOzNkJ3c3DykhQZwECf33tGVxHzdWgrm+e4Y6tegdqba/4SbSZqlkGfu+Jr+9Q6L1on4ZdNbMXsqmsgdAWxyoKMk+7GLrg4aswBizF3YUVJLiaXhKD4Ht+fjPW6CXJciTXD4TQpV5QebfUBwu033Yil+cm0P01RQ10FkPqDnj4/mZIYh8gsYqaiIg0B8mmuO1/DCVaTDFwkJXDNRy7yb5hzjMXqxZ2rROkxgV490oWkv3qei3IdASLDFuLJQk+H4s3WedVCp/FcMUBADncwrRPAlwDTv/1HY33s8TxpYCF8+ZB9i25SzLMC89ZV5u1AHL6OYNyBOD7ycHzlbPcV5p+KNmV1X7+ve3a4rJMM+kIwRrAfTqSknjvSOOsHLm0t/nXOb3MX2UT/M8FnJ7PEhqH8O79RFnP42oT5wWQe7xrAamV37keMcc/j85yUsMKTpGf/dkk/35NqmcA60tzSr5plNGn0emKjlbAKsIuE/y95YHQKQfNPoCJOy0JFf/P96p01RTdtVUReARbHzyVATT5OI+i2L4tm4okmYlnc0M9pOeTMBEJrTmPyTH+bnijP55kuVTE/oLjjXrx6ffESuWuuylHZbHRGtuaejDFRmglk3Of0Oq5rvNBy/E72cMSKeshcBSELRQSJ5JDYcfUCU2jOB1Vi92OldGDliNpuB+bd8Vr0r7vJlFeS4tnoBqIGKhmKn3KZyb1AzXzr+Xprw1qHv3w7KiTh43piyt7KdfRMAZHcF18X0W+jLVin81Y6GQlxZcDQUH1pfUsf2qr9bnP9lK6g+UMEwGz5CTuU4VphDJL2P1oqFWGJDW61HdpemwDuAobDejNyRII+8pLg0kqIFdgZuqXUawQ1/yH8ORQjiSe0mAxNjABtnY5Z8IHr4I+OXMERa65iAAA=";
 var NPC=[["FR","マダム・バゲット"],["BR","カーニバル仙人"],["IN","カレー導師ラージ"],["IS","氷河の釣り人"],["US","ハンバーガー将軍"],["CN","パンダ飼育係の鬼"],["KR","キムチ番長"],["IT","パスタ茹ですぎ侯爵"],["DE","ソーセージ博士"],["EG","ピラミッド管理人"],["AU","カンガルー拳闘士"],["CA","メープル樵(きこり)"],["MX","サボテン楽団長"],["TH","屋台の魔術師"],["GB","紅茶で乾杯卿"],["NO","フィヨルド寝坊助"],["ES","シエスタ大臣"],["NL","風車まわし名人"],["RU","ボルシチ極寒隊長"],["TR","ケバブ曲芸師"],["ZA","サバンナ郵便局長"],["NZ","羊の数え係"],["PE","リャマと昼寝同盟"],["GR","オリーブ哲学者"],["SE","家具組み立て迷子"],["AR","タンゴ踊りすぎ男爵"],["VN","フォー早食い王"],["KE","マラソン羊飼い"],["CH","チーズ金庫番"],["JP","コタツ守りの猫仙人"]];
-function flag(c){if(!c||c.length!==2)return"🌏";return String.fromCodePoint(127397+c.charCodeAt(0),127397+c.charCodeAt(1))}
+function flagH(c){if(c&&/^[A-Z]{2}$/.test(c))return String.fromCodePoint(127397+c.charCodeAt(0),127397+c.charCodeAt(1));return'<img class="ff" alt="顔の旗" src="'+FACE+'">'}
 var UNITS=["","万","億","兆","京","垓","秭","穣","溝","澗","正","載","極"];
 function fmt(b){var s=b.toString();if(s==="0")return"0";var p=[],i=s.length;while(i>0){p.unshift(s.slice(Math.max(0,i-4),i));i-=4}
 var out=[],n=p.length;for(var k=0;k<n;k++){var u=n-1-k;var v=p[k].replace(/^0+/,"");if(!v)continue;if(u>=UNITS.length){return s.replace(/\B(?=(\d{3})+(?!\d))/g,",")}out.push(v+UNITS[u]);if(out.length===2)break}return out.join("")}
-function days(){return Math.max(0,Math.floor((Date.now()-BASE)/864e5))}
-function npcs(){var d=BigInt(days()),r=[],i;for(i=0;i<NPC.length;i++){var k=NPC.length-1-i;var base=5000n*(31n**BigInt(k))/(10n**BigInt(k));var g=BigInt(5+((i*7)%36));r.push({c:NPC[i][0],n:NPC[i][1],s:base*(1000n+g*d)/1000n})}return r}
-var LANGC={ja:"JP",ko:"KR",zh:"CN",en:"US",fr:"FR",de:"DE",es:"ES",pt:"BR",it:"IT",th:"TH",vi:"VN",id:"ID",ru:"RU",tr:"TR",nl:"NL",sv:"SE",el:"GR",no:"NO",nb:"NO"};
-var TZC={"Asia/Tokyo":"JP","Asia/Seoul":"KR","Asia/Shanghai":"CN","Asia/Taipei":"TW","Asia/Hong_Kong":"HK","Asia/Singapore":"SG","Asia/Bangkok":"TH","Asia/Ho_Chi_Minh":"VN","Asia/Jakarta":"ID","Asia/Kolkata":"IN","Europe/London":"GB","Europe/Paris":"FR","Europe/Berlin":"DE","Europe/Madrid":"ES","Europe/Rome":"IT","America/New_York":"US","America/Chicago":"US","America/Los_Angeles":"US","America/Toronto":"CA","America/Mexico_City":"MX","America/Sao_Paulo":"BR","Australia/Sydney":"AU","Pacific/Auckland":"NZ"};
-function myCountry(){try{var L=navigator.languages||[navigator.language],i;for(i=0;i<L.length;i++){var m=/^[a-z]{2,3}-(?:[A-Za-z]{4}-)?([A-Z]{2})$/.exec(L[i]||"");if(m)return m[1]}}catch(e){}
-try{var z=Intl.DateTimeFormat().resolvedOptions().timeZone;if(TZC[z])return TZC[z]}catch(e){}
-try{var l=(navigator.language||"").slice(0,2).toLowerCase();if(LANGC[l])return LANGC[l]}catch(e){}return""}
+/* 日付(端末のローカル時刻) */
+function dn(d){return Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5)}
+var BASE_DN=dn(new Date(2026,10,17));
+function pad(n){return(n<10?"0":"")+n}
+function keys(now){var wd=(now.getDay()+6)%7,mon=new Date(now.getFullYear(),now.getMonth(),now.getDate()-wd);
+return{d:now.getFullYear()+"-"+pad(now.getMonth()+1)+"-"+pad(now.getDate()),w:mon.getFullYear()+"-"+pad(mon.getMonth()+1)+"-"+pad(mon.getDate()),m:now.getFullYear()+"-"+pad(now.getMonth()+1)}}
+/* 架空キャラ */
+function hash(i,k){return(Math.imul(i+1,2654435761)^Math.imul(k+7,40503))>>>0}
+function baseOf(i){var k=NPC.length-1-i;return 5000n*(31n**BigInt(k))/(10n**BigInt(k))}
+function gainDay(i,k){if(k<BASE_DN)return 0n;var g=BigInt(5+((i*7)%36)),j=BigInt(50+hash(i,k)%101);return baseOf(i)*g*j/100000n}
+function npcs(per,now){var today=dn(now),i,k,r=[],frac=Math.max(.04,(now.getHours()*60+now.getMinutes())/1440),fr=BigInt(Math.round(frac*1000));
+var start=per==="d"?today:per==="w"?today-((now.getDay()+6)%7):per==="m"?today-(now.getDate()-1):BASE_DN;
+for(i=0;i<NPC.length;i++){var s=per==="t"?baseOf(i):0n;for(k=Math.max(start,BASE_DN);k<today;k++)s+=gainDay(i,k);s+=gainDay(i,today)*fr/1000n;r.push({c:NPC[i][0],n:NPC[i][1],s:s})}return r}
+/* 自分 */
 function myNo(){var v=null;try{v=localStorage.getItem(HKEY)}catch(e){}if(!v||!/^\d{6}$/.test(v)){v=("00000"+(1+Math.floor(Math.random()*999999))).slice(-6);try{localStorage.setItem(HKEY,v)}catch(e){}}return v}
 function myTot(){try{var v=localStorage.getItem(LKEY);if(v&&/^\d+$/.test(v))return BigInt(v)}catch(e){}return 0n}
+function myCC(){try{var v=localStorage.getItem(CKEY);return v&&/^[A-Z]{2}$/.test(v)?v:""}catch(e){return""}}
+function snaps(){var K=keys(new Date()),S={},T=myTot().toString(),ch=false;try{S=JSON.parse(localStorage.getItem(SKEY)||"{}")||{}}catch(e){S={}}
+["d","w","m"].forEach(function(p){if(!S[p]||S[p].k!==K[p]||!/^\d+$/.test(S[p].v||"")){S[p]={k:K[p],v:T};ch=true}});
+if(ch){try{localStorage.setItem(SKEY,JSON.stringify(S))}catch(e){}}return S}
+function myScore(per){var T=myTot();if(per==="t")return T;var S=snaps(),v=BigInt(S[per].v);return T>v?T-v:0n}
+snaps(); /* 読み込み時に期間の基準点を記録(得点が増える前に) */
+/* GPS → 国 */
+function gps(cb){if(!navigator.geolocation){cb(null,"この端末では位置情報が使えません");return}
+navigator.geolocation.getCurrentPosition(function(p){
+var la=p.coords.latitude.toFixed(1),lo=p.coords.longitude.toFixed(1);
+fetch("https://api.bigdatacloud.net/data/reverse-geocode-client?latitude="+la+"&longitude="+lo+"&localityLanguage=en",{cache:"no-store"}).then(function(r){return r.ok?r.json():Promise.reject()}).then(function(j){var c=j&&j.countryCode;if(c&&/^[A-Za-z]{2}$/.test(c)){c=c.toUpperCase();try{localStorage.setItem(CKEY,c)}catch(e){}cb(c)}else cb(null,"国を判定できませんでした")}).catch(function(){cb(null,"国を判定できませんでした(通信エラー)")})
+},function(e){cb(null,e&&e.code===1?"位置情報が許可されなかったので、顔の旗のままです":"位置情報を取得できませんでした")},{timeout:12000,maximumAge:3600000})}
+var LABEL={d:"デイリー",w:"ウイークリー",m:"マンスリー",t:"総合"},NOTE={d:"毎日0時にリセット",w:"毎週月曜0時にリセット",m:"毎月1日0時にリセット",t:"これまでの総得点"};
 function open_(){
 if(document.getElementById("rkv"))return;
-var T=myTot(),N=npcs(),me={c:myCountry(),n:"変態No."+myNo(),s:T,me:true};
-var all=N.concat([me]);all.sort(function(a,b){return a.s>b.s?-1:a.s<b.s?1:(a.me?1:b.me?-1:0)});
-var rank=all.indexOf(me)+1,total=all.length,full=false;
+var per="t",full=false,all=[],me,rank,total;
 var o=document.createElement("div");o.id="rkv";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");o.setAttribute("aria-label","世界ランキング");
-o.innerHTML='<div class="rc"><h2>🌍 世界ランキング</h2><p class="me"><span class="mn"></span><b></b><span class="ms"></span></p><ol></ol><p class="nt">※ランキングの相手は全員、架空のキャラクターです</p><div class="bt"><button type="button" class="mo"></button><button type="button" class="cl">とじる</button></div></div>';
+o.innerHTML='<div class="rc"><h2>🌍 世界ランキング</h2><div class="tabs" role="tablist"></div><p class="me"><span class="mn"></span><b></b><span class="ms"></span></p><ol></ol><p class="nt"></p><div class="bt"><button type="button" class="mo"></button><button type="button" class="cl">とじる</button></div></div>';
 document.body.appendChild(o);
+var tabs=o.querySelector(".tabs");["d","w","m","t"].forEach(function(p){var b=document.createElement("button");b.type="button";b.setAttribute("role","tab");b.dataset.p=p;b.textContent=LABEL[p];tabs.appendChild(b)});
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
-function row(i){var x=all[i];return'<li'+(x.me?' class="you"':'')+'><span class="n">'+(i+1)+'</span><span class="f">'+flag(x.c)+'</span><span class="t">'+esc(x.n)+(x.me?'(あなた)':'')+'</span><span class="s">'+fmt(x.s)+'点</span></li>'}
-function render(){var h="",i,show=[];
-if(full){for(i=0;i<total;i++)show.push(i)}
-else{var set={};for(i=0;i<5;i++)set[i]=1;for(i=rank-2;i<=rank;i++)if(i>=0&&i<total)set[i]=1;for(i=0;i<total;i++)if(set[i])show.push(i)}
+function row(i){var x=all[i];return'<li'+(x.me?' class="you"':'')+'><span class="n">'+(i+1)+'</span><span class="f">'+flagH(x.c)+'</span><span class="t">'+esc(x.n)+(x.me?'(あなた)':'')+'</span><span class="s">'+fmt(x.s)+'点</span></li>'}
+function build(){var now=new Date(),T=myScore(per);me={c:myCC(),n:"変態No."+myNo(),s:T,me:true};
+all=npcs(per,now).concat([me]);all.sort(function(a,b){return a.s>b.s?-1:a.s<b.s?1:(a.me?1:b.me?-1:0)});rank=all.indexOf(me)+1;total=all.length}
+function render(){build();var h="",i,show=[];
+Array.prototype.forEach.call(tabs.children,function(b){b.setAttribute("aria-selected",b.dataset.p===per?"true":"false")});
+if(full){for(i=0;i<total;i++)show.push(i)}else{var set={};for(i=0;i<5;i++)set[i]=1;for(i=rank-2;i<=rank;i++)if(i>=0&&i<total)set[i]=1;for(i=0;i<total;i++)if(set[i])show.push(i)}
 var prev=-1;show.forEach(function(i){if(prev>=0&&i-prev>1)h+='<li class="gap" aria-hidden="true">⋮</li>';h+=row(i);prev=i});
 o.querySelector("ol").innerHTML=h;
-var mo=o.querySelector(".mo");mo.textContent=full?"上位だけ見る":"ぜんぶ見る";mo.hidden=false}
-o.querySelector(".mn").textContent=flag(me.c)+" "+me.n;
-o.querySelector("b").textContent="世界 "+rank+"位";
-o.querySelector(".ms").textContent=T>0n?(total+"人中 ・ "+fmt(T)+"点"):("まだ得点がありません。最初のページでキャラをタップ!");
-render();
+var mo=o.querySelector(".mo");mo.textContent=full?"上位だけ見る":"ぜんぶ見る";
+o.querySelector(".mn").innerHTML=flagH(me.c)+" "+esc(me.n);
+o.querySelector("b").textContent=LABEL[per]+" "+rank+"位";
+o.querySelector(".ms").textContent=me.s>0n?(total+"人中 ・ "+fmt(me.s)+"点"):(per==="t"?"まだ得点がありません。最初のページでキャラをタップ!":"この期間はまだ得点がありません");
+var nt='※ランキングの相手は全員、架空のキャラクターです<small>'+LABEL[per]+':'+NOTE[per]+'</small>';
+o.querySelector(".nt").innerHTML=nt;
+var g=o.querySelector(".gps");if(myCC()){if(g)g.remove();var gm0=o.querySelector(".gm");if(gm0)gm0.remove()}else if(!g){g=document.createElement("button");g.type="button";g.className="gps";g.textContent="📍 位置情報で国旗をつける";o.querySelector(".me").insertAdjacentElement("afterend",g);var gm=document.createElement("p");gm.className="gm";gm.textContent="位置情報は国の判定だけに使い、保存するのは国コードだけです。使わないと、顔の旗になります。";g.insertAdjacentElement("afterend",gm)}}
+tabs.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("button");if(b&&b.dataset.p){per=b.dataset.p;render()}});
+o.addEventListener("click",function(e){var g=e.target.closest&&e.target.closest(".gps");if(g){g.disabled=true;g.textContent="位置情報を確認中…";gps(function(c,msg){if(c){render()}else{g.disabled=false;g.textContent="📍 位置情報で国旗をつける";var gm=o.querySelector(".gm");if(gm&&msg)gm.textContent=msg}})}});
 o.querySelector(".mo").addEventListener("click",function(){full=!full;render()});
 function close(){document.removeEventListener("keydown",key);o.classList.remove("on");setTimeout(function(){o.remove()},300)}
 function key(e){if(e.key==="Escape")close()}
 document.addEventListener("keydown",key);
 o.addEventListener("click",function(e){if(e.target===o||e.target.closest(".cl"))close()});
+render();
 requestAnimationFrame(function(){requestAnimationFrame(function(){o.classList.add("on");var c=o.querySelector(".cl");if(c&&c.focus)c.focus({preventScroll:true})})})}
 document.addEventListener("click",function(e){var b=e.target&&e.target.closest&&e.target.closest(".lrk");if(b){e.stopPropagation();open_()}},true);
 })();

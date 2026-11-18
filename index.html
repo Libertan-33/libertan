@@ -2344,7 +2344,7 @@ var mo=o.querySelector(".mo");mo.textContent=full?"上位だけ見る":"ぜん�
 o.querySelector(".mn").innerHTML=flagH(me.c)+" "+esc(me.n);
 o.querySelector("b").textContent=LABEL[per]+" "+rank+"位";
 o.querySelector(".ms").textContent=me.s>0n?(total+"人中 ・ "+fmt(me.s)+"点"):(per==="t"?"まだ得点がありません。最初のページでキャラをタップ!":"この期間はまだ得点がありません");
-var nt=(realN>0?'※架空のキャラクターが混ざっています':'※ランキングの相手は全員、架空のキャラクターです')+'<small>'+LABEL[per]+':'+NOTE[per]+'</small>'+(on()&&fail?'<small>通信できなかったので、本物のユーザーは表示できていません</small>':'');
+var nt='<small>'+LABEL[per]+':'+NOTE[per]+'</small>'+(on()&&fail?'<small>通信できなかったので、本物のユーザーは表示できていません</small>':'');
 o.querySelector(".nt").innerHTML=nt;
 var g=o.querySelector(".gps");if(myCC()&&!isEst()){if(g)g.remove();var gm0=o.querySelector(".gm");if(gm0)gm0.remove()}else if(!g){g=document.createElement("button");g.type="button";g.className="gps";g.textContent=isEst()?"📍 もう一度、位置情報で判定する":"📍 位置情報で国旗をつける";o.querySelector(".me").insertAdjacentElement("afterend",g);var gm=document.createElement("p");gm.className="gm";gm.textContent=isEst()?"いまの国旗は、端末の時刻設定からの推定です。":"位置情報は国の判定だけに使い、保存するのは国コードだけです。使わないと、顔の旗になります。";g.insertAdjacentElement("afterend",gm)}}
 function load(force){if(!on())return;var p=per;board(p,force).then(function(d){if(!document.getElementById("rkv")||p!==per)return;fail=!d;if(d){data=d}render()})}

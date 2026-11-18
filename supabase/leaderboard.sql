@@ -91,5 +91,5 @@ begin
   return json_build_object('top', top, 'count', cnt, 'ahead', ahead, 'mine', mine::text);
 end $$;
 
-revoke all on function public.lb_register(text), public.lb_submit(bigint, uuid, text, text), public.lb_board(text, bigint), public.lb_keys(), public.lb_scores(text) from public;
+revoke all on function public.lb_register(text), public.lb_submit(bigint, uuid, text, text), public.lb_board(text, bigint), public.lb_keys(), public.lb_scores(text) from public, anon, authenticated;
 grant execute on function public.lb_register(text), public.lb_submit(bigint, uuid, text, text), public.lb_board(text, bigint) to anon, authenticated;

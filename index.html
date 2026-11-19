@@ -1203,7 +1203,7 @@ setTimeout(function(){w.classList.add("clear");show(true,true)},1250);
 setTimeout(function(){d.className="on open out"},1300);
 setTimeout(function(){d.className="";w.classList.remove("clear");busy=false},3300)}
 var o=document.querySelectorAll(".open");for(var i=0;i<o.length;i++)o[i].addEventListener("click",openDoor);
-document.getElementById("back").addEventListener("click",function(e){e.preventDefault();try{if(window.__libMute)window.__libMute()}catch(x){}try{window.scrollTo(0,0);location.reload()}catch(x){show(false)}});
+document.getElementById("back").addEventListener("click",function(e){e.preventDefault();try{if(window.__libMute)window.__libMute()}catch(x){}try{history.scrollRestoration="manual"}catch(x){}try{window.scrollTo(0,0);location.reload()}catch(x){show(false)}});
 if("IntersectionObserver" in window){
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.12});
 var t=document.querySelectorAll(".arch,.lpph,.lp p,.lp .btns:not(#enter1),#site h2,#site .eyebrow,#site .card,#site .steps li,#site .marks li,#site .quote,#site .lead,#site .trip,#site .trip-c,#site .btns,#site .chips,#site .trinity,#site .pic,#site .shop .tile,#site .shop .logoask,#site .shop .shopcopy");
@@ -1574,7 +1574,7 @@ function drop(){if(begun||cm||document.hidden)return;var px=innerWidth*(.12+.76*
 function innnerH(){return innerHeight}
 if(swEl&&!cm){setTimeout(drop,500);setInterval(drop,2600)}
 function hide(){window.__still=false;if(stEl){stEl.classList.add("out");setTimeout(function(){stEl.style.display="none"},1000)}}
-function begin(snd){if(begun)return;begun=true;if(GLR){var dv=window.__dive||{x:innerWidth/2,y:innerHeight*.6};setTimeout(function(){GLR.add(dv.x,dv.y,2)},60)}hide();
+function begin(snd){if(begun)return;begun=true;try{window.scrollTo(0,0)}catch(e){}if(GLR){var dv=window.__dive||{x:innerWidth/2,y:innerHeight*.6};setTimeout(function(){GLR.add(dv.x,dv.y,2)},60)}hide();
 if(!snd||!VL){if(window.__libHold)window.__libHold(0);plain();return}
 var go=false,run=function(){if(go)return;go=true;if(window.__libHold)window.__libHold(6700);voiced()};
 VL.addEventListener("playing",run);

@@ -2291,8 +2291,8 @@ function keys(now){var wd=(now.getDay()+6)%7,mon=new Date(now.getFullYear(),now.
 return{d:now.getFullYear()+"-"+pad(now.getMonth()+1)+"-"+pad(now.getDate()),w:mon.getFullYear()+"-"+pad(mon.getMonth()+1)+"-"+pad(mon.getDate()),m:now.getFullYear()+"-"+pad(now.getMonth()+1)}}
 /* 架空キャラ */
 function hash(i,k){return(Math.imul(i+1,2654435761)^Math.imul(k+7,40503))>>>0}
-/* 那由他級で争う: 最下位 約3×10^49 〜 首位 約280那由他(2.8×10^62) */
-function baseOf(i){var k=NPC.length-1-i;return 30000000000000000000000000000000000000000000000000n*(28n**BigInt(k))/(10n**BigInt(k))}
+/* 那由他級で争う: デイリー首位が1日の終わりで約1500那由他になる規模 */
+function baseOf(i){var k=NPC.length-1-i;return 23000000000000000000000000000000000000000000000000000n*(28n**BigInt(k))/(10n**BigInt(k))}
 /* 架空キャラの得点は UPH 時間に1回だけ更新される */
 var UPH=3;
 function gainDay(i,k){if(k<BASE_DN)return 0n;var g=BigInt(5+((i*7)%36)),j=BigInt(50+hash(i,k)%101);return baseOf(i)*g*j/100000n}

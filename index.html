@@ -2357,7 +2357,7 @@ var npc=npcs(per,now),real=[],mn=srvNo();
 if(data&&data.top)data.top.forEach(function(x){if(mn&&x.no===mn)return;try{real.push({c:x.cc||"",n:"変態No."+("000"+x.no).slice(-Math.max(4,String(x.no).length)),s:BigInt(x.s)})}catch(e){}});
 all=npc.concat(real,[me]);all.sort(function(a,b){return a.s>b.s?-1:a.s<b.s?1:(a.me?1:b.me?-1:0)});
 var idx=all.indexOf(me),hidden=0;
-if(data&&data.mine!=null&&me.s>0n){var ah=+data.ahead||0,listed=real.filter(function(x){return x.s>me.s}).length;hidden=Math.max(0,ah-listed)}
+if(data&&data.mine!=null&&me.s>0n){var ah=+data.ahead||0,sm=me.s;try{sm=BigInt(data.mine)}catch(e){}var listed=real.filter(function(x){return x.s>sm}).length;hidden=Math.max(0,ah-listed)}
 rank=idx+1+hidden;total=npc.length+(data?(+data.count||0)+(data.mine==null?1:0):1);if(total<all.length)total=all.length;me.rk=rank;realN=real.length}
 function render(){build();var h="",i,show=[];
 Array.prototype.forEach.call(tabs.children,function(b){b.setAttribute("aria-selected",b.dataset.p===per?"true":"false")});

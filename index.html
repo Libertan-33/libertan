@@ -725,6 +725,13 @@ html.seq.rev .hv{opacity:.62;pointer-events:auto;transition:opacity 1.6s ease 1s
 header .wrap{padding-top:12px}
 #site #profile{padding-top:6px}
 .herotl{margin-top:10px}
+/* 霧が晴れるように: 扉の先で、タイトルは霞の中の無彩色から始まり、霞が抜けてから虹色が現れる */
+@keyframes tClear{0%{opacity:0;filter:saturate(0) brightness(1.4) blur(10px)}30%{opacity:.85;filter:saturate(0) brightness(1.25) blur(6px)}62%{opacity:1;filter:saturate(0) brightness(1.1) blur(1.5px)}100%{opacity:1;filter:saturate(1) brightness(1) blur(0)}}
+html.js .herotl .logo:not(.go){opacity:0}
+html.js .herotl .logo:not(.go)~.wel{opacity:0;animation:none}
+.herotl .logo.go{animation:tClear 4.6s ease-out both}
+.herotl .logo.go~.wel{animation:welin .6s 4.2s cubic-bezier(.2,1.6,.4,1) both,welfl 3.4s ease-in-out 5s infinite}
+@media (prefers-reduced-motion:reduce){.herotl .logo.go{animation:none}.herotl .logo.go~.wel{animation:none}}
 </style>
 <style>
 html.seq #gate .ln.sp{opacity:1;filter:none;transition:none}
@@ -2399,6 +2406,16 @@ o.addEventListener("click",function(e){if(e.target===o||e.target.closest(".cl"))
 render();load();
 requestAnimationFrame(function(){requestAnimationFrame(function(){o.classList.add("on");var c=o.querySelector(".cl");if(c&&c.focus)c.focus({preventScroll:true})})})}
 document.addEventListener("click",function(e){var b=e.target&&e.target.closest&&e.target.closest(".lrk");if(b){e.stopPropagation();open_()}},true);
+})();
+/* 扉の先のタイトル: ログインボーナスを閉じてから、霞が晴れて虹色が現れる */
+(function(){var lg=document.querySelector(".herotl .logo"),st=document.getElementById("site");if(!lg||!st)return;
+var fired=false,armed=false;
+function go(){if(fired)return;fired=true;lg.classList.add("go")}
+function arm(){if(armed)return;armed=true;setTimeout(function(){
+if(document.getElementById("lbn")){var mo=new MutationObserver(function(){if(!document.getElementById("lbn")){mo.disconnect();setTimeout(go,300)}});mo.observe(document.body,{childList:true})}else go()},2600)}
+new MutationObserver(function(){if(!st.hidden)arm()}).observe(st,{attributes:true,attributeFilter:["hidden"]});
+if(!st.hidden)arm();
+setTimeout(go,40000);
 })();
 </script>
 </body>

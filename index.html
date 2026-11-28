@@ -619,18 +619,6 @@ background-size:320% 100%,100% 100%,100% 100%,100% 100%;background-position:100%
 #uw{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;display:none;background:linear-gradient(180deg,#d4ebe8 0%,#b3d8da 45%,#8fc0cb 100%)}
 #site:not([hidden])~#uw{display:block}
 #uw i{position:absolute;display:block;will-change:transform}
-#uw .uwt{inset:-20%;background:radial-gradient(ellipse 50% 40% at 25% 30%,rgba(255,255,255,.55),rgba(255,255,255,0) 70%),radial-gradient(ellipse 45% 38% at 75% 65%,rgba(60,140,175,.38),rgba(60,140,175,0) 70%),radial-gradient(ellipse 40% 35% at 55% 15%,rgba(210,245,235,.5),rgba(210,245,235,0) 70%);animation:uwtint 14s ease-in-out infinite alternate}
-#uw .cau{left:-15%;top:-15%;width:130%;height:130%}
-#uw .c1{opacity:.9;background:linear-gradient(100deg,rgba(255,255,255,0) 17%,rgba(255,255,255,.16) 22%,rgba(255,255,255,.3) 26%,rgba(255,255,255,.16) 30%,rgba(255,255,255,0) 35%),linear-gradient(96deg,rgba(255,255,255,0) 46%,rgba(255,255,255,.16) 51%,rgba(255,255,255,.3) 55%,rgba(255,255,255,.16) 59%,rgba(255,255,255,0) 64%),linear-gradient(103deg,rgba(255,255,255,0) 71%,rgba(255,255,255,.16) 76%,rgba(255,255,255,.3) 80%,rgba(255,255,255,.16) 84%,rgba(255,255,255,0) 89%),repeating-radial-gradient(ellipse 130px 90px at 30% 40%,rgba(255,255,255,0) 0 16px,rgba(255,255,255,.55) 27px,rgba(255,255,255,0) 42px),repeating-radial-gradient(ellipse 95px 135px at 72% 62%,rgba(255,255,255,0) 0 15px,rgba(255,255,255,.42) 25px,rgba(255,255,255,0) 40px);animation:uwc1 16s ease-in-out infinite alternate}
-#uw .c2{opacity:.7;background:repeating-radial-gradient(ellipse 105px 105px at 60% 30%,rgba(255,255,255,0) 0 18px,rgba(255,255,255,.45) 29px,rgba(255,255,255,0) 45px),repeating-radial-gradient(ellipse 145px 95px at 20% 75%,rgba(50,130,170,0) 0 16px,rgba(50,130,170,.22) 27px,rgba(50,130,170,0) 41px);animation:uwc2 21s ease-in-out infinite alternate}
-#uw .ray{display:none;top:-20%;height:150%;width:22%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.1) 22%,rgba(255,255,255,.34) 50%,rgba(255,255,255,.1) 78%,rgba(255,255,255,0));transform-origin:50% 0;animation:uwray 12s ease-in-out infinite alternate}
-#uw .r1{left:8%;--a:-14deg;--b:-6deg}
-#uw .r2{left:42%;width:30%;--a:-8deg;--b:3deg;animation-duration:16s;animation-delay:-5s}
-#uw .r3{left:72%;width:18%;--a:-4deg;--b:9deg;animation-duration:19s;animation-delay:-9s}
-@keyframes uwtint{from{transform:translate(-4%,-3%) scale(1)}to{transform:translate(5%,4%) scale(1.12)}}
-@keyframes uwc1{from{transform:translate(-6%,-4%) rotate(-4deg) scale(1)}to{transform:translate(8%,6%) rotate(6deg) scale(1.12)}}
-@keyframes uwc2{from{transform:translate(6%,5%) rotate(5deg) scale(1.1)}to{transform:translate(-7%,-8%) rotate(-7deg) scale(1)}}
-@keyframes uwray{from{transform:rotate(var(--a));opacity:.35}to{transform:rotate(var(--b));opacity:.9}}
 @keyframes uwdA{0%,100%{translate:0 0;rotate:0deg}33%{translate:5px -9px;rotate:.4deg}66%{translate:-4px -3px;rotate:-.3deg}}
 @keyframes uwdB{0%,100%{translate:0 0;rotate:0deg}40%{translate:-5px -8px;rotate:-.35deg}75%{translate:4px -11px;rotate:.3deg}}
 @keyframes uwdC{0%,100%{translate:0 -4px;rotate:.2deg}50%{translate:4px 7px;rotate:-.25deg}}
@@ -1201,7 +1189,7 @@ p,li,dd{text-wrap:pretty}
 </div>
 <div id="rays" aria-hidden="true"></div>
 <div id="halo" aria-hidden="true"><b class="dusk"></b></div>
-<div id="uw" aria-hidden="true"><i class="uwt"></i><i class="cau c1"></i><i class="cau c2"></i><i class="ray r1"></i><i class="ray r2"></i><i class="ray r3"></i></div>
+<div id="uw" aria-hidden="true"></div>
 <canvas id="storm" aria-hidden="true"></canvas>
 <div id="bar"></div>
 <button id="gesc" type="button">メニューを見る ↓</button>
@@ -2296,6 +2284,38 @@ im.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.pre
 #rkv .nt{margin:12px 0 0;font-size:11px;line-height:1.6;text-align:center;opacity:.75}
 #rkv .bt{display:flex;justify-content:center;gap:10px;margin-top:12px}
 #rkv button{font:inherit;font-size:13px;letter-spacing:.12em;color:#ffe9a0;background:linear-gradient(180deg,#4d330a,#241602);border:1px solid #f1cf6a;border-radius:999px;padding:8px 20px;cursor:pointer}
+/* ---- いまの空: 日付と場所から太陽の高さを計算し、時刻と天気に合わせた空を扉の先の背景にする ---- */
+#uw{background:linear-gradient(#bcd9ee,#dcecf6 60%,#f4f9fc)}
+#uw i{will-change:auto}
+#uw .skg,#uw .sks,#uw .skcl,#uw .skhz,#uw .skfl{inset:0}
+#uw .sks{opacity:0}
+#uw .sks b{position:absolute;display:block;width:3px;height:3px;border-radius:50%;background:#fff}
+#uw .skgl{width:300px;height:300px;margin:-150px 0 0 -150px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,236,190,.95),rgba(255,190,110,.45) 45%,rgba(255,170,90,0));opacity:0}
+#uw .skmn{width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:#f4f1e6;box-shadow:0 0 22px 6px rgba(240,240,255,.35);opacity:0}
+#uw .skcl{overflow:hidden;opacity:.12}
+#uw .skcl b{position:absolute;display:block;border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.95),rgba(255,255,255,0));filter:blur(6px);animation:skdrift linear infinite}
+#uw .skcl b:nth-child(1){width:260px;height:110px;top:14%;left:-45vw;animation-duration:70s}
+#uw .skcl b:nth-child(2){width:340px;height:140px;top:36%;left:-55vw;animation-duration:95s;animation-delay:-40s}
+#uw .skcl b:nth-child(3){width:220px;height:90px;top:58%;left:-45vw;animation-duration:80s;animation-delay:-20s}
+#uw .skcl b:nth-child(4){width:300px;height:120px;top:76%;left:-50vw;animation-duration:110s;animation-delay:-70s}
+#uw .skcl b:nth-child(5){width:280px;height:110px;top:4%;left:-55vw;animation-duration:120s;animation-delay:-90s}
+@keyframes skdrift{to{transform:translateX(200vw)}}
+#uw .skhz{opacity:0}
+#uw .skfl{background:#fff;opacity:0}
+#uw canvas.skfx{position:absolute;inset:0;width:100%;height:100%}
+/* 見出しや本文はこれまでどおり墨色で読めるよう、トップの下は空の色をうすく重ねる */
+#skveil{position:absolute;left:0;right:0;bottom:0;top:700px;z-index:-1;pointer-events:none;background:linear-gradient(rgba(var(--vc,200,210,225),0),rgba(var(--vc,200,210,225),.92) 110px)}
+.skbar{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:0 14px;font-size:12px;letter-spacing:.06em;line-height:1.7;padding:0 0 8px;word-break:keep-all}
+.skbar span{white-space:nowrap}
+.skbar select{font:inherit;color:inherit;background-color:transparent;border:0;border-bottom:1px solid currentColor;border-radius:0;padding:0 16px 0 2px;margin:0;-webkit-appearance:none;appearance:none;cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);background-position:calc(100% - 8px) 55%,calc(100% - 4px) 55%;background-size:4px 4px;background-repeat:no-repeat}
+.skbar select option{color:#2F2B27;background:#fff}
+.skbar select:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+/* 空が暗いあいだ、トップの文字だけ明るい色にする */
+.sk-hero{text-shadow:0 0 6px rgba(255,255,255,.7),0 1px 14px rgba(255,255,255,.55)}
+.sk-lt{color:#F4F1EB!important;text-shadow:0 0 6px rgba(10,12,30,.8),0 1px 14px rgba(10,12,30,.65)}
+nav a.pill.sk-lt{background:#F4F1EB;color:#14172f!important;text-shadow:none}
+.fold-btn.sk-lt{border-color:#F4F1EB!important;background:rgba(255,255,255,.1)!important}
+@media (prefers-reduced-motion:reduce){#site:not([hidden])~#uw{display:block!important}#uw .skcl b{animation:none}}
 </style>
 <script>
 (function(){
@@ -2416,6 +2436,115 @@ if(document.getElementById("lbn")){var mo=new MutationObserver(function(){if(!do
 new MutationObserver(function(){if(!st.hidden)arm()}).observe(st,{attributes:true,attributeFilter:["hidden"]});
 if(!st.hidden)arm();
 setTimeout(go,40000);
+})();
+/* いまの空: 日付と場所から太陽の高さを計算して、扉の先の背景を時刻と天気に合わせる */
+(function(){
+var site=document.getElementById("site"),uw=document.getElementById("uw");if(!site||!uw)return;
+var CITIES=[["札幌",43.06,141.35],["仙台",38.27,140.87],["東京",35.68,139.76],["名古屋",35.18,136.91],["大阪",34.69,135.5],["広島",34.4,132.46],["福岡",33.59,130.4],["那覇",26.21,127.68]];
+var WN={clear:"晴れ",partly:"晴れ時々くもり",cloudy:"くもり",fog:"霧",rain:"雨",snow:"雪",thunder:"雷雨"};
+var WX={clear:{k:0,dark:1,cloud:.12,haze:0},partly:{k:.25,dark:.97,cloud:.55,haze:0},cloudy:{k:.7,dark:.9,cloud:1,haze:.06},fog:{k:.82,dark:1,cloud:.4,haze:.5},rain:{k:.85,dark:.8,cloud:1,haze:.08,fall:"rain"},snow:{k:.6,dark:1.04,cloud:1,haze:.14,fall:"snow"},thunder:{k:.9,dark:.68,cloud:1,haze:.08,fall:"rain",bolt:true}};
+var KEYS=[[-20,[8,10,30],[14,18,46],[22,22,52]],[-12,[16,22,60],[36,38,86],[62,50,98]],[-6,[44,52,112],[128,96,152],[226,140,142]],[-1,[84,104,164],[232,154,160],[255,196,138]],[4,[126,164,212],[244,208,176],[255,228,176]],[12,[124,178,230],[184,216,240],[232,243,250]],[35,[80,158,224],[160,206,240],[214,235,248]]];
+var rad=Math.PI/180,calm=false;try{calm=matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){}
+function sm(x){x=Math.max(0,Math.min(1,x));return x*x*(3-2*x)}
+function mixc(a,b,t){return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t]}
+function lin(c){c/=255;return c<=.04045?c/12.92:Math.pow((c+.055)/1.055,2.4)}
+function lum(c){return .2126*lin(c[0])+.7152*lin(c[1])+.0722*lin(c[2])}
+function css(c){return "rgb("+c.map(Math.round).join(",")+")"}
+function at(cols,f){return f<.5?mixc(cols[0],cols[1],f*2):mixc(cols[1],cols[2],(f-.5)*2)}
+function elevation(ms,lat,lon){var n=ms/86400000+2440587.5-2451545,L=(280.46+.9856474*n)%360,g=((357.528+.9856003*n)%360)*rad;
+var lam=(L+1.915*Math.sin(g)+.02*Math.sin(2*g))*rad,eps=(23.439-4e-7*n)*rad,dec=Math.asin(Math.sin(eps)*Math.sin(lam)),ra=Math.atan2(Math.cos(eps)*Math.sin(lam),Math.cos(lam));
+var gm=(280.46061837+360.98564736629*n)%360,ha=(gm+lon)*rad-ra;return Math.asin(Math.sin(lat*rad)*Math.sin(dec)+Math.cos(lat*rad)*Math.cos(dec)*Math.cos(ha))/rad}
+var stC={};function sunTimes(d0,ci){var k=d0+"_"+ci;if(stC[k])return stC[k];var c=CITIES[ci],up=null,dn=null,pv=elevation(d0,c[1],c[2]);
+for(var m=1;m<=1440;m++){var e=elevation(d0+m*60000,c[1],c[2]);if(pv<-.833&&e>=-.833&&up===null)up=m;if(pv>=-.833&&e<-.833&&dn===null)dn=m;pv=e}return stC[k]={up:up,dn:dn}}
+function palette(el){if(el<=KEYS[0][0])return [KEYS[0][1],KEYS[0][2],KEYS[0][3]];for(var i=1;i<KEYS.length;i++){if(el<=KEYS[i][0]){var a=KEYS[i-1],b=KEYS[i],t=(el-a[0])/(b[0]-a[0]);return [mixc(a[1],b[1],t),mixc(a[2],b[2],t),mixc(a[3],b[3],t)]}}var k=KEYS[KEYS.length-1];return [k[1],k[2],k[3]]}
+function weatherize(cols,w){return cols.map(function(c){var m=(c[0]+c[1]+c[2])/3,x=mixc(c,[m*.96,m*.99,m*1.05],w.k);if(w.haze>=.4)x=mixc(x,[m*1.12+14,m*1.12+16,m*1.14+20],.55);return x.map(function(v){return Math.max(0,Math.min(255,v*w.dark))})})}
+function mapWx(code,cover){var t="clear";if(code===2)t="partly";else if(code===3)t="cloudy";else if(code===45||code===48)t="fog";else if(code>=95)t="thunder";else if((code>=71&&code<=77)||code===85||code===86)t="snow";else if((code>=51&&code<=67)||(code>=80&&code<=82))t="rain";else if(cover>=50)t="partly";return t}
+/* 場所 */
+var ci=2;try{var sv=parseInt(localStorage.getItem("libsky-city"),10);if(sv>=0&&sv<CITIES.length)ci=sv}catch(e){}
+var wxT="clear",DBG=null;
+/* 部品 */
+var i,html='<i class="skg"></i><i class="sks">';
+for(i=0;i<14;i++)html+='<b style="left:'+(Math.random()*96+2).toFixed(1)+'%;top:'+(Math.random()*62+2).toFixed(1)+'%;opacity:'+(.4+Math.random()*.6).toFixed(2)+'"></b>';
+html+='</i><i class="skmn"></i><i class="skgl"></i><i class="skcl"><b></b><b></b><b></b><b></b><b></b></i><i class="skhz"></i><canvas class="skfx"></canvas><i class="skfl"></i>';
+uw.innerHTML=html;
+var g=uw.querySelector(".skg"),stars=uw.querySelector(".sks"),moon=uw.querySelector(".skmn"),glow=uw.querySelector(".skgl"),clouds=uw.querySelector(".skcl"),hazeEl=uw.querySelector(".skhz"),fx=uw.querySelector(".skfx"),fl=uw.querySelector(".skfl"),cx=fx.getContext("2d");
+var veil=document.createElement("div");veil.id="skveil";veil.setAttribute("aria-hidden","true");site.appendChild(veil);
+var nav=document.querySelector("#site header nav"),bar=document.createElement("div");bar.className="skbar";
+bar.innerHTML='<label>空の場所 <select id="skcity" aria-label="空を合わせる場所"></select></label><span id="skwx"></span><span id="skup"></span><span id="skdn"></span>';
+if(nav&&nav.parentNode)nav.parentNode.insertBefore(bar,nav.nextSibling);
+var sel=bar.querySelector("select");CITIES.forEach(function(c,k){var o=document.createElement("option");o.value=k;o.textContent=c[0];sel.appendChild(o)});sel.value=ci;
+var tx=[].slice.call(document.querySelectorAll("#site header nav a,#profile .eyebrow,#profile h2,#profile .fold-btn,#profile .oshi")).concat([bar]);tx.forEach(function(e){e.classList.add("sk-hero")});
+var fb=document.querySelector("#profile .fold-btn"),VA=.92,FADE=110,vt=700,cols=[[200,220,240],[200,220,240],[200,220,240]],hc=[233,236,239],hzNow=0,vcol=[200,215,230],fall=null,bolt=false,introT0=null,INTRO=.86;
+/* 霧が晴れる: タイトルが晴れ始めたら、空の霞も約5秒で抜ける */
+var logo=document.querySelector(".herotl .logo");
+function startIntro(){if(introT0===null){introT0=performance.now();loop()}}
+if(logo){if(logo.classList.contains("go"))introT0=performance.now()-6000;else{var mo=new MutationObserver(function(){if(logo.classList.contains("go")){mo.disconnect();startIntro()}});mo.observe(logo,{attributes:true,attributeFilter:["class"]})}}
+function introAmt(){if(introT0===null)return INTRO;return INTRO*(1-sm((performance.now()-introT0)/5200))}
+function jst0(){var j=Date.now()+9*3600000;return Math.floor(j/86400000)*86400000-9*3600000}
+function hhmm(m){m=Math.round(m);return ("0"+Math.floor(m/60)%24).slice(-2).replace(/^0/,"")+":"+("0"+m%60).slice(-2)}
+function render(){
+  var c=CITIES[ci],d0=jst0(),m=DBG&&DBG.m!=null?DBG.m:(Date.now()-d0)/60000,w=WX[DBG&&DBG.w?DBG.w:wxT]||WX.clear,wn=DBG&&DBG.w?DBG.w:wxT;
+  var el=elevation(d0+m*60000,c[1],c[2]),st=sunTimes(d0,ci);
+  cols=weatherize(palette(el),w);
+  g.style.background="linear-gradient("+css(cols[0])+","+css(cols[1])+","+css(cols[2])+")";
+  var night=sm((-4-el)/8);stars.style.opacity=(night*(1-w.k*.95)).toFixed(3);moon.style.opacity=(night*(1-w.k*.85)).toFixed(3);
+  if(st.up!==null&&st.dn!==null){var span=st.up+1440-st.dn,q=m>=st.dn?m-st.dn:m+1440-st.dn,ng=q/span;moon.style.left=(86-72*ng).toFixed(1)+"%";moon.style.top=(34-18*Math.sin(Math.PI*Math.min(1,ng))).toFixed(1)+"%";
+    var fr=Math.max(0,Math.min(1,(m-st.up)/(st.dn-st.up)));glow.style.left=(10+80*fr).toFixed(1)+"%"}
+  glow.style.top=(88-Math.max(-4,Math.min(60,el))*1.05).toFixed(1)+"%";
+  glow.style.opacity=(sm((el+5)/6)*(1-sm((el-30)/25)*.7)*(1-w.k*.85)).toFixed(3);
+  clouds.style.opacity=w.cloud;clouds.style.filter="brightness("+(Math.max(.18,.2+.8*sm((el+8)/18))*(w.dark<.9?.8:1)).toFixed(3)+")";
+  var hf=Math.max(.12,sm((el+10)/22));hc=[233*hf,236*hf,239*hf];hzNow=Math.max(w.haze,introAmt());hazeEl.style.background=css(hc);hazeEl.style.opacity=hzNow.toFixed(3);
+  fall=w.fall||null;bolt=!!w.bolt;
+  vcol=mixc(cols[1],[244,246,248],.8);veil.style.setProperty("--vc",vcol.map(Math.round).join(","));
+  var bt=fb?fb.getBoundingClientRect().bottom-site.getBoundingClientRect().top+8:700;if(bt>200&&Math.abs(bt-vt)>1){vt=bt;veil.style.top=vt+"px"}
+  var s1=document.getElementById("skwx"),s2=document.getElementById("skup"),s3=document.getElementById("skdn");
+  s1.textContent=WN[wn]||"";s2.textContent="日の出 "+hhmm(st.up);s3.textContent="日の入り "+hhmm(st.dn);
+  paintText();
+}
+/* 文字ごとに、その場所の背景の明るさを見て、明るい色と墨色を選ぶ */
+function paintText(){
+  var sr=site.getBoundingClientRect(),H=innerHeight;
+  for(var k=0;k<tx.length;k++){var e=tx[k],r=e.getBoundingClientRect(),cy=r.top+r.height/2;if(r.height===0||cy<-40||cy>H+40)continue;
+    var bg=at(cols,Math.max(0,Math.min(1,cy/H)));bg=mixc(bg,hc,hzNow);
+    var va=VA*Math.max(0,Math.min(1,(cy-sr.top-vt)/FADE));bg=mixc(bg,vcol,va);
+    e.classList.toggle("sk-lt",lum(bg)<=.227)}
+}
+var pend=0;addEventListener("scroll",function(){if(pend)return;pend=requestAnimationFrame(function(){pend=0;paintText()})},{passive:true});
+addEventListener("resize",function(){vt=0;render();fitFx()});
+if(window.ResizeObserver){var rp=document.getElementById("profile");if(rp)new ResizeObserver(function(){render()}).observe(rp)}
+/* 雨・雪・雷 */
+var D=[],nb=0;
+function fitFx(){var k=Math.min(1.5,devicePixelRatio||1);fx.width=Math.round(innerWidth*k);fx.height=Math.round(innerHeight*k)}
+fitFx();for(i=0;i<140;i++)D.push({x:Math.random(),y:Math.random(),s:.6+Math.random()*.8,r:1+Math.random()*1.8});
+function frame(t){
+  cx.clearRect(0,0,fx.width,fx.height);
+  if(fall&&!calm){var W=fx.width,Hh=fx.height,dark=lum(at(cols,.5))<.3;
+    for(var k=0;k<D.length;k++){var p=D[k];
+      if(fall==="rain"){p.y+=.022*p.s;p.x-=.004*p.s;if(p.y>1){p.y=-.05;p.x=Math.random()*1.1}cx.strokeStyle=dark?"rgba(200,215,240,.5)":"rgba(70,90,120,.45)";cx.lineWidth=1.2*(W/400);cx.beginPath();cx.moveTo(p.x*W,p.y*Hh);cx.lineTo((p.x-.012)*W,(p.y+.035)*Hh);cx.stroke()}
+      else{p.y+=.0035*p.s;p.x+=Math.sin(t/900+k)*.0007;if(p.y>1){p.y=-.02;p.x=Math.random()}cx.fillStyle="rgba(255,255,255,.9)";cx.beginPath();cx.arc(p.x*W,p.y*Hh,p.r*(W/400)*1.2,0,6.283);cx.fill()}}}
+  if(bolt&&!calm&&t>nb){fl.style.transition="none";fl.style.opacity=".5";setTimeout(function(){fl.style.transition="opacity .35s ease-out";fl.style.opacity="0"},90);nb=t+6000+Math.random()*9000}
+}
+var raf=0;
+function loop(){if(raf)return;raf=requestAnimationFrame(function run(t){raf=0;if(document.hidden||site.hidden){return}
+  var intro=introT0!==null&&performance.now()-introT0<5400||introT0===null&&false;
+  if(intro)render();frame(t);if(fall||bolt||intro)loop();else{cx.clearRect(0,0,fx.width,fx.height)}})}
+/* 天気 */
+function loadWx(){
+  var c=CITIES[ci],key="libsky-wx";
+  try{var j=JSON.parse(localStorage.getItem(key)||"null");if(j&&j.c===ci&&Date.now()-j.t<900000){wxT=j.w;render();loop();return}}catch(e){}
+  var ac=window.AbortController?new AbortController():null,to=ac?setTimeout(function(){ac.abort()},8000):0;
+  fetch("https://api.open-meteo.com/v1/forecast?latitude="+c[1]+"&longitude="+c[2]+"&current=weather_code,cloud_cover&timezone=Asia%2FTokyo",ac?{signal:ac.signal}:{})
+  .then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){var cu=j&&j.current;if(!cu)throw 0;wxT=mapWx(cu.weather_code,cu.cloud_cover);try{localStorage.setItem(key,JSON.stringify({c:ci,t:Date.now(),w:wxT}))}catch(e){}render();loop()})
+  .catch(function(){}).then(function(){if(to)clearTimeout(to)});
+}
+sel.addEventListener("change",function(){ci=+sel.value;try{localStorage.setItem("libsky-city",String(ci))}catch(e){}wxT="clear";render();loadWx()});
+render();loadWx();
+setInterval(function(){if(!document.hidden&&!DBG)render()},20000);
+setInterval(function(){if(!document.hidden)loadWx()},1200000);
+document.addEventListener("visibilitychange",function(){if(!document.hidden){render();loop()}});
+new MutationObserver(function(){if(!site.hidden){vt=0;render();loop()}}).observe(site,{attributes:true,attributeFilter:["hidden"]});
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){vt=0;render()});
+window.__skyDbg=function(m,w,c){DBG=m===null?null:{m:m,w:w};if(c!=null){ci=c;sel.value=c}render();loop()};
 })();
 </script>
 </body>
